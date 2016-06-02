@@ -18,7 +18,7 @@ namespace MindgemAPI.Models
         public String nameAccount { get; set; }
         public int currentEtherPrice { get; set; }
 
-        // PAS LOUAYY BAHHHHHHHH OUAIIIIIISSS AAAHHHHHHHH OUUUAAAAIIIIS
+        // LA féfé sur les champs
         public Double getcurrentEtherPrice(String dataUrl)
         {
             try
