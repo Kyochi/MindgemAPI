@@ -2,7 +2,7 @@
 
 namespace MindgemAPI.DataObjects
 {
-    public class TodoItem : EntityData
+    public class WalletItem : EntityData
     {
         public string Text { get; set; }
 

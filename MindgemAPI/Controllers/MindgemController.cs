@@ -10,30 +10,31 @@ using System;
 
 namespace MindgemAPI.Controllers
 {
-    public class DataController : TableController<TodoItem>
+    public class MindgemController : TableController<WalletItem>
     {
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
             MobileServiceContext context = new MobileServiceContext();
-            DomainManager = new EntityDomainManager<TodoItem>(context, Request, Services);
+            DomainManager = new EntityDomainManager<WalletItem>(context, Request, Services);
         }
 
-        private const String URL_PUBLIC_ASSET_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=ETHEUR";
         public const uint MAXUSERS = 10;
 
-        // Pour plus tard ...
-        Data[] dataAccount = new Data[MAXUSERS];
-        public Data dataController;
+        KrakenModel[] dataAccount;
+        public KrakenModel kModel;
 
-        public DataController()
+        // Constructeur
+        public MindgemController()
         {
-            dataController = new Data();
+            kModel = new KrakenModel();
+            dataAccount = new KrakenModel[MAXUSERS];
         }
-        //Pour acceder à ça : http://localhost:3213/tables/data/getdataprice/ ou http://localhost:3213/tables/data/
-        public String getDataPrice()
+
+        //Pour acceder à ça : http://localhost:3213/tables/mindgem/getethereumprice/
+        public String getEthereumPrice()
         {
-            return Convert.ToString(this.dataController.getcurrentEtherPrice(URL_PUBLIC_ASSET_KRAKEN));
+            return Convert.ToString(this.kModel.getCurrentEtherPrice("ETH", "EUR"));
         }
 
         /*

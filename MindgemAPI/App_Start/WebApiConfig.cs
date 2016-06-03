@@ -32,15 +32,15 @@ namespace MindgemAPI
     {
         protected override void Seed(MobileServiceContext context)
         {
-            List<TodoItem> todoItems = new List<TodoItem>
+            List<WalletItem> todoItems = new List<WalletItem>
             {
-                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
-                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
+                new WalletItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
+                new WalletItem { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
             };
 
-            foreach (TodoItem todoItem in todoItems)
+            foreach (WalletItem todoItem in todoItems)
             {
-                context.Set<TodoItem>().Add(todoItem);
+                context.Set<WalletItem>().Add(todoItem);
             }
 
             base.Seed(context);

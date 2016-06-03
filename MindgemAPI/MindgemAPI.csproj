@@ -120,9 +120,8 @@
       <HintPath>..\packages\Microsoft.Owin.Security.Twitter.2.1.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ServiceBus">
-      <HintPath>..\packages\WindowsAzure.ServiceBus.2.3.4.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -221,10 +220,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\DataController.cs" />
+    <Compile Include="Controllers\MindgemController.cs" />
     <Compile Include="DataObjects\JsonModelClass.cs" />
-    <Compile Include="DataObjects\TodoItem.cs" />
-    <Compile Include="Models\Data.cs" />
+    <Compile Include="DataObjects\WalletItem.cs" />
+    <Compile Include="Models\KrakenModel.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />
     <Compile Include="Global.asax.cs">
@@ -250,6 +249,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Performance\Microsoft.ServiceBus.MessagingPerformanceCounters.man" />
+  </ItemGroup>
+  <ItemGroup>
+    <Fakes Include="Fakes\Microsoft.ServiceBus.fakes" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

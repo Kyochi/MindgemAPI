@@ -12,18 +12,25 @@ using System.Web;
 
 namespace MindgemAPI.Models
 {
-    public class Data
+    public class KrakenModel
     {
 
         public String nameAccount { get; set; }
         public int currentEtherPrice { get; set; }
+        private const String URL_PUBLIC_ASSET_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
 
-        // LA féfé sur les champs
-        public Double getcurrentEtherPrice(String dataUrl)
+        // Constructeur
+        public KrakenModel()
+        {
+            // ...
+        }
+
+        // Récupération du cours de l'Ether via l'API Kraken
+        public Double getCurrentEtherPrice(String currencyFrom, String currencyTo)
         {
             try
             {
-                WebResponse response = httpGetRequest(dataUrl);
+                WebResponse response = httpGetRequest(URL_PUBLIC_ASSET_KRAKEN + currencyFrom + currencyTo);
                 using (Stream responseStream = response.GetResponseStream())
                 {
                     StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
