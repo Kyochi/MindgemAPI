@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,28 +8,23 @@ namespace MindgemAPI.DataObjects
 {
     public class TickerItem
     {
-        public class XETHZEUR
-        {
-            public List<string> a { get; set; }
-            public List<string> b { get; set; }
-            public List<string> c { get; set; }
-            public List<string> v { get; set; }
-            public List<string> p { get; set; }
-            public List<int> t { get; set; }
-            public List<string> l { get; set; }
-            public List<string> h { get; set; }
-            public string o { get; set; }
-        }
-
-        public class Result
-        {
-            public XETHZEUR XETHZEUR { get; set; }
-        }
-
-        public class RootObject
-        {
-            public List<object> error { get; set; }
-            public Result result { get; set; }
-        }
+        [JsonProperty("a")]
+        public List<string> askInfo { get; set; }
+        [JsonProperty("b")]
+        public List<string> bidInfo { get; set; }
+        [JsonProperty("c")]
+        public List<string> lastTradeCloded { get; set; }
+        [JsonProperty("v")]
+        public List<string> volume { get; set; }
+        [JsonProperty("p")]
+        public List<string> priceWeightAvg { get; set; }
+        [JsonProperty("t")]
+        public List<int> numberOfTrader { get; set; }
+        [JsonProperty("l")]
+        public List<string> lowPrice { get; set; }
+        [JsonProperty("h")]
+        public List<string> highPrice { get; set; }
+        [JsonProperty("o")]
+        public string openingPrice { get; set; }
     }
 }

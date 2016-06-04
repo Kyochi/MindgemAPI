@@ -1,5 +1,6 @@
 ﻿using MindgemAPI.DataObjects;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,9 +39,13 @@ namespace MindgemAPI.Models
                     json = reader.ReadToEnd();
                     if (!String.IsNullOrEmpty(json))
                     {
-                        var jsonObject = JsonConvert.DeserializeObject<TickerItem.RootObject>(json);
-                        Debug.Assert((jsonObject.result.XETHZEUR.a) != null);
-                        String currentValue = jsonObject.result.XETHZEUR.a.ElementAt(0); ;
+                        // A voir si on simplifie et augmente la complexité ou non.
+                        String currencyValueFromKraken = "X" + currencyFrom + "Z" + currencyTo;
+                        var jsonSelectResultCurrency = JObject.Parse(json)["result"][currencyValueFromKraken];
+                        String jsonfinal = jsonSelectResultCurrency.ToString();
+                        var currencyObject = JsonConvert.DeserializeObject<TickerItem>(jsonfinal);
+                        Debug.Assert((currencyObject.askInfo) != null);
+                        string currentValue = currencyObject.askInfo.ElementAt(0);
                         return Convert.ToDouble(currentValue, new NumberFormatInfo());
                     }
                     else
