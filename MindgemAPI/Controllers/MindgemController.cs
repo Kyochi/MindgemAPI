@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace MindgemAPI.Controllers
 {
+    [RoutePrefix("api/mindgem")]
     public class MindgemController : ApiController
     {
         public ApiServices Services { get; set; }
@@ -25,12 +26,13 @@ namespace MindgemAPI.Controllers
             dataAccount = new KrakenModel[MAXUSERS];
         }
 
-        //Pour acceder à ça : http://localhostIX.../api/mindgem/
-        public String getEthereumPrice()
+        [Route("getkrakenprice/{from}/{to}")]
+        public String getKrakenPrice(String from, String to)
         {
-            return Convert.ToString(this.kModel.getCurrentEtherPrice("ETH", "EUR"));
+            return Convert.ToString(this.kModel.getCurrentKrakenPrice(from, to));
         }
 
+        [Route("getservtime")]
         public String getServerTime()
         {
             return kModel.getServerTime();

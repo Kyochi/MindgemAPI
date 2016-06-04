@@ -26,7 +26,7 @@ namespace MindgemAPI.Models
         }
 
         // Récupération du cours de l'Ether via l'API Kraken
-        public Double getCurrentEtherPrice(String currencyFrom, String currencyTo)
+        public Double getCurrentKrakenPrice(String currencyFrom, String currencyTo)
         {
             try
             {
