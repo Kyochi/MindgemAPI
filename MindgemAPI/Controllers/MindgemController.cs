@@ -28,8 +28,12 @@ namespace MindgemAPI.Controllers
         //Pour acceder à ça : http://localhostIX.../api/mindgem/
         public String getEthereumPrice()
         {
-            // Test GH 4
             return Convert.ToString(this.kModel.getCurrentEtherPrice("ETH", "EUR"));
+        }
+
+        public String getServerTime()
+        {
+            return kModel.getServerTime();
         }
     }
 }

@@ -221,7 +221,8 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MindgemController.cs" />
-    <Compile Include="DataObjects\JsonModelClass.cs" />
+    <Compile Include="DataObjects\ServerItem.cs" />
+    <Compile Include="DataObjects\TickerItem.cs" />
     <Compile Include="DataObjects\WalletItem.cs" />
     <Compile Include="Models\KrakenModel.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />

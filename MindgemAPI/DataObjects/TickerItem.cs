@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MindgemAPI.DataObjects
 {
-    public class JsonModelClass
+    public class TickerItem
     {
         public class XETHZEUR
         {
