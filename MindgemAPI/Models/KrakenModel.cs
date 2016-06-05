@@ -1,4 +1,5 @@
 ﻿using MindgemAPI.DataObjects;
+using MindgemAPI.ScheduledJobs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -17,7 +18,8 @@ namespace MindgemAPI.Models
     {
         public String nameAccount { get; set; }
         public int currentEtherPrice { get; set; }
-        private const String URL_PUBLIC_ASSET_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
+        private const String URL_PUBLIC_TICKER_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
+        private const String URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Time";
 
         public KrakenModel()
         {
@@ -29,26 +31,22 @@ namespace MindgemAPI.Models
         {
             try
             {
-                WebResponse response = httpGetRequest(URL_PUBLIC_ASSET_KRAKEN + currencyFrom + currencyTo);
+                WebResponse response = httpGetRequest(URL_PUBLIC_TICKER_KRAKEN + currencyFrom + currencyTo);
                 using (Stream responseStream = response.GetResponseStream())
                 {
                     StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                    String json = null;
-                    json = reader.ReadToEnd();
+                    String json = reader.ReadToEnd();
                     if (!String.IsNullOrEmpty(json))
                     {
-                        // A voir si on peut rendre plus générique sans mettre X et Z en dur et sans trop augmenter la complexité du code.
-                        // Dans un second temps : rendre plus propre l'appel au traitement du json aussi.
-                        String currencyValueFromKraken = "X" + currencyFrom + "Z" + currencyTo;
+                        string currencyValueFromKraken = getPairCode("kraken",currencyFrom, currencyTo);
                         JToken selectSpecificNodeContent = JObject.Parse(json)["result"][currencyValueFromKraken];
                         String jsonfinal = selectSpecificNodeContent.ToString();
+                        TickerItem ti = JsonConvert.DeserializeObject<TickerItem>(jsonfinal);
+                        //Réfléchir à comment enlever la ligne du dessous
+                        //Thèse à écarter : créer un constructeur dans TickerItem
+                        ti.mapAskInfo();
 
-                        var currencyObject = JsonConvert.DeserializeObject<TickerItem>(jsonfinal);
-                        Debug.Assert((currencyObject.askInfo) != null);
-
-                        // Il faut faire qq chose pour plus avoir à taper dans l'index de la liste comme ça.
-                        string currentValue = currencyObject.askInfo.ElementAt(0);
-                        return Convert.ToDouble(currentValue, new NumberFormatInfo());
+                        return Convert.ToDouble(ti.askInfoMapped["price"], new NumberFormatInfo());
                     }
                     else
                     {
@@ -73,7 +71,7 @@ namespace MindgemAPI.Models
         {
             try
             {
-                WebResponse response = httpGetRequest("https://api.kraken.com/0/public/Time");
+                WebResponse response = httpGetRequest(URL_PUBLIC_SERVERTIME_KRAKEN);
                 using (Stream responseStream = response.GetResponseStream())
                 {
                     StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
@@ -82,11 +80,6 @@ namespace MindgemAPI.Models
                     if (!String.IsNullOrEmpty(json))
                     {
                         var jsonObject = JsonConvert.DeserializeObject<ServerItem.ServerObject>(json);
-                        Debug.WriteLine(" --------------- ");
-                        Debug.WriteLine(jsonObject.result);
-                        Debug.WriteLine(jsonObject.result.rfc);
-                        Debug.WriteLine(jsonObject.result.unixtime);
-                        Debug.WriteLine(" --------------- ");
                         return Convert.ToString(jsonObject.result.unixtime);
                     }
                     else
@@ -113,6 +106,19 @@ namespace MindgemAPI.Models
             request.Method = WebRequestMethods.Http.Get;
             request.ContentType = "application/json; charset=utf-8";
             return request.GetResponse();
+        }
+
+        // Plus tard : à déplacer dans une classe à part qui servira pour toutes les API où on tape.
+        public String getPairCode(String service, String from, String to)
+        {
+            switch(service)
+            {
+                case "kraken":
+                    return "X" + from + "Z" + to;
+                default:
+                    return "API service not found";
+            }
+            
         }
     }
 }

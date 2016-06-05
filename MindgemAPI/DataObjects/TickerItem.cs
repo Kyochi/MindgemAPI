@@ -26,5 +26,16 @@ namespace MindgemAPI.DataObjects
         public List<string> highPrice { get; set; }
         [JsonProperty("o")]
         public string openingPrice { get; set; }
+
+        public Dictionary<String, String> askInfoMapped { get; set; }
+        
+        public void mapAskInfo()
+        {
+            Dictionary<String, String> resultMap = new Dictionary<string, string>();
+            resultMap.Add("price", askInfo.ElementAt(0));
+            resultMap.Add("wholelotvolume", askInfo.ElementAt(1));
+            resultMap.Add("lotvolume", askInfo.ElementAt(2));
+            askInfoMapped = resultMap;
+        }
     }
 }
