@@ -15,18 +15,16 @@ namespace MindgemAPI.Models
 {
     public class KrakenModel
     {
-
         public String nameAccount { get; set; }
         public int currentEtherPrice { get; set; }
         private const String URL_PUBLIC_ASSET_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
 
-        // Constructeur
         public KrakenModel()
         {
-            // ...
+            // Initialisation du constructeur par défaut
         }
 
-        // Récupération du cours de l'Ether via l'API Kraken
+        // Récupération du cours d'une crypto-monnaie via l'API Kraken
         public Double getCurrentKrakenPrice(String currencyFrom, String currencyTo)
         {
             try
@@ -39,12 +37,16 @@ namespace MindgemAPI.Models
                     json = reader.ReadToEnd();
                     if (!String.IsNullOrEmpty(json))
                     {
-                        // A voir si on simplifie et augmente la complexité ou non.
+                        // A voir si on peut rendre plus générique sans mettre X et Z en dur et sans trop augmenter la complexité du code.
+                        // Dans un second temps : rendre plus propre l'appel au traitement du json aussi.
                         String currencyValueFromKraken = "X" + currencyFrom + "Z" + currencyTo;
-                        var jsonSelectResultCurrency = JObject.Parse(json)["result"][currencyValueFromKraken];
-                        String jsonfinal = jsonSelectResultCurrency.ToString();
+                        JToken selectSpecificNodeContent = JObject.Parse(json)["result"][currencyValueFromKraken];
+                        String jsonfinal = selectSpecificNodeContent.ToString();
+
                         var currencyObject = JsonConvert.DeserializeObject<TickerItem>(jsonfinal);
                         Debug.Assert((currencyObject.askInfo) != null);
+
+                        // Il faut faire qq chose pour plus avoir à taper dans l'index de la liste comme ça.
                         string currentValue = currencyObject.askInfo.ElementAt(0);
                         return Convert.ToDouble(currentValue, new NumberFormatInfo());
                     }
@@ -104,8 +106,6 @@ namespace MindgemAPI.Models
             }
             return "";
         }
-
-
 
         private WebResponse httpGetRequest(String url)
         {

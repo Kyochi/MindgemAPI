@@ -13,13 +13,13 @@ namespace MindgemAPI.DataObjects
         [JsonProperty("b")]
         public List<string> bidInfo { get; set; }
         [JsonProperty("c")]
-        public List<string> lastTradeCloded { get; set; }
+        public List<string> lastTradeClosed { get; set; }
         [JsonProperty("v")]
         public List<string> volume { get; set; }
         [JsonProperty("p")]
         public List<string> priceWeightAvg { get; set; }
         [JsonProperty("t")]
-        public List<int> numberOfTrader { get; set; }
+        public List<int> numberOfTrades { get; set; }
         [JsonProperty("l")]
         public List<string> lowPrice { get; set; }
         [JsonProperty("h")]
