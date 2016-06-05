@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Mobile.Service;
 using MindgemAPI.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,16 +27,17 @@ namespace MindgemAPI.Controllers
             dataAccount = new KrakenModel[MAXUSERS];
         }
 
-        [Route("getkrakenprice/{from}/{to}")]
+        [Route("kraken/getprice/{from}/{to}")]
         public String getKrakenPrice(String from, String to)
         {
             return Convert.ToString(this.kModel.getCurrentKrakenPrice(from, to));
         }
 
-        [Route("getservtime")]
+        [Route("kraken/getservtime")]
         public String getServerTime()
         {
             return kModel.getServerTime();
         }
+
     }
 }

@@ -7,6 +7,7 @@ using MindgemAPI.DataObjects;
 using MindgemAPI.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using System.Web.Routing;
+using System.Net.Http.Headers;
 
 namespace MindgemAPI
 {
@@ -19,6 +20,8 @@ namespace MindgemAPI
 
             // Use this class to set WebAPI configuration options
             HttpConfiguration config = ServiceConfig.Initialize(new ConfigBuilder(options));
+
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
 
             // To display errors in the browser during development, uncomment the following
             // line. Comment it out again when you deploy your service for production use.
