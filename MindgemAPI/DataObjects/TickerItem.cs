@@ -28,7 +28,8 @@ namespace MindgemAPI.DataObjects
         public string openingPrice { get; set; }
 
         public Dictionary<String, String> askInfoMapped { get; set; }
-        
+        public Dictionary<String, String> numberOfTradesMap { get; set; }
+
         public void mapAskInfo()
         {
             Dictionary<String, String> resultMap = new Dictionary<string, string>();
@@ -36,6 +37,14 @@ namespace MindgemAPI.DataObjects
             resultMap.Add("wholelotvolume", askInfo.ElementAt(1));
             resultMap.Add("lotvolume", askInfo.ElementAt(2));
             askInfoMapped = resultMap;
+        }
+
+        public void mapNumberOfTrades()
+        {
+            Dictionary<String, String> resultMap = new Dictionary<string, string>();
+            resultMap.Add("today", Convert.ToString(numberOfTrades.ElementAt(0)));
+            resultMap.Add("last24hours", Convert.ToString(numberOfTrades.ElementAt(1)));
+            numberOfTradesMap = resultMap;
         }
     }
 }

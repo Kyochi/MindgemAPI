@@ -39,5 +39,11 @@ namespace MindgemAPI.Controllers
             return kModel.getServerTime();
         }
 
+        [Route("kraken/trades/{from}/{to}")]
+        public String getKrakenTrades(String from, String to)
+        {
+            return Convert.ToString(this.kModel.getTradesLastDay(from, to));
+        }
+
     }
 }

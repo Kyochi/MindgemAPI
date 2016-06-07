@@ -67,7 +67,46 @@ namespace MindgemAPI.Models
             return Double.NaN;
         }
 
-        public List<String> getOrderBook(String currencyFrom, String currencyTo)
+        public Double getTradesLastDay(String currencyFrom, String currencyTo)
+        {
+            try
+            {
+                WebResponse response = httpGetRequest(URL_PUBLIC_TICKER_KRAKEN + currencyFrom + currencyTo);
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    String json = reader.ReadToEnd();
+                    if (!String.IsNullOrEmpty(json))
+                    {
+                        string currencyValueFromKraken = getPairCode("kraken", currencyFrom, currencyTo);
+                        JToken selectSpecificNodeContent = JObject.Parse(json)["result"][currencyValueFromKraken];
+                        String jsonfinal = selectSpecificNodeContent.ToString();
+                        TickerItem ti = JsonConvert.DeserializeObject<TickerItem>(jsonfinal);
+                        //Réfléchir à comment enlever la ligne du dessous
+                        //Thèse à écarter : créer un constructeur dans TickerItem
+                        ti.mapNumberOfTrades();
+
+                        return Convert.ToDouble(ti.numberOfTradesMap["last24hours"], new NumberFormatInfo());
+                    }
+                    else
+                    {
+                        throw new Exception("Le Json retourné est vide");
+                    }
+                }
+            }
+            catch (WebException webEx)
+            {
+                Console.WriteLine("Le délai d'attente a été dépassé ou une erreur s'est produite pendant le traitement de la requête");
+                Console.WriteLine("Message d'exception : " + webEx.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception inconnue : " + e.Message);
+            }
+            return Double.NaN;
+        }
+
+        public Double getOrderBook(String currencyFrom, String currencyTo)
         {
             try
             {
