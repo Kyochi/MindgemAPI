@@ -20,6 +20,7 @@ namespace MindgemAPI.Models
         public int currentEtherPrice { get; set; }
         private const String URL_PUBLIC_TICKER_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
         private const String URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Time";
+        private const String URL_PUBLIC_ORDERBOOK_KRAKEN = "https://api.kraken.com/0/public/Depth?pair=";
 
         public KrakenModel()
         {
@@ -47,6 +48,37 @@ namespace MindgemAPI.Models
                         ti.mapAskInfo();
 
                         return Convert.ToDouble(ti.askInfoMapped["price"], new NumberFormatInfo());
+                    }
+                    else
+                    {
+                        throw new Exception("Le Json retourné est vide");
+                    }
+                }
+            }
+            catch (WebException webEx)
+            {
+                Console.WriteLine("Le délai d'attente a été dépassé ou une erreur s'est produite pendant le traitement de la requête");
+                Console.WriteLine("Message d'exception : " + webEx.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception inconnue : " + e.Message);
+            }
+            return Double.NaN;
+        }
+
+        public List<String> getOrderBook(String currencyFrom, String currencyTo)
+        {
+            try
+            {
+                WebResponse response = httpGetRequest(URL_PUBLIC_ORDERBOOK_KRAKEN + currencyFrom + currencyTo);
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    String json = reader.ReadToEnd();
+                    if (!String.IsNullOrEmpty(json))
+                    {
+                        //
                     }
                     else
                     {
