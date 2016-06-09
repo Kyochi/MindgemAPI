@@ -1,4 +1,4 @@
-﻿using MindgemAPI.DataObjects;
+﻿using MindgemAPI.dataobjects;
 using MindgemAPI.ScheduledJobs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -31,17 +31,27 @@ namespace MindgemAPI.Models
         public Double getCurrentKrakenPrice(String currencyFrom, String currencyTo)
         {
             TickerItem ti = JsonConvert.DeserializeObject<TickerItem>(getJson("ticker", currencyFrom, currencyTo));
-            ti.mapAskInfo();
-            return Convert.ToDouble(ti.askInfoMapped["price"], new NumberFormatInfo());
+            if (ti != null)
+            {
+                Object returnedValue;
+                ti.askInfo.TryGetValue("price", out returnedValue);
+                return Convert.ToDouble(returnedValue, new NumberFormatInfo());
+            }
+            return Double.NaN;
 
         }
 
-        // Récupération du nombre de trades effectués lors des dernières 24 heures
+        // Récupération du nombre de trades effectués lors des dernières 24 heures 
         public Double getTradesLastDay(String currencyFrom, String currencyTo)
         {                        
             TickerItem ti = JsonConvert.DeserializeObject<TickerItem>(getJson("ticker", currencyFrom,currencyTo));
-            ti.mapNumberOfTrades();
-            return Convert.ToDouble(ti.numberOfTradesMap["last24hours"], new NumberFormatInfo());
+            if (ti != null)
+            {
+                Object returnedValue;
+                ti.numberOfTrades.TryGetValue("last24hours", out returnedValue);
+                return Convert.ToDouble(returnedValue, new NumberFormatInfo());
+            }
+            return Double.NaN;
         }
 
         // Récupération de l'heure du serveur Kraken

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Web.Http;
-using MindgemAPI.DataObjects;
+using MindgemAPI.dataobjects;
 using MindgemAPI.Models;
 using Microsoft.WindowsAzure.Mobile.Service;
 using System.Web.Routing;

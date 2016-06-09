@@ -6,13 +6,13 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace MindgemAPI.Tools
+namespace MindgemAPI.converter
 {
-    class CustomJsonConverter : JsonConverter
+    public class JsonTickerConverter : JsonConverter
     {
         private string[] keysArray;
 
-        public CustomJsonConverter(Type containingObjectType, string keysArrayFieldName)
+        public JsonTickerConverter(Type containingObjectType, string keysArrayFieldName)
         {
             FieldInfo field = containingObjectType.GetField(keysArrayFieldName);
             if (field == null)

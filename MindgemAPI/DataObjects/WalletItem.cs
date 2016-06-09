@@ -1,6 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Mobile.Service;
 
-namespace MindgemAPI.DataObjects
+namespace MindgemAPI.dataobjects
 {
     public class WalletItem : EntityData
     {
