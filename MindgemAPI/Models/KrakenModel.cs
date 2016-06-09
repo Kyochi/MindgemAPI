@@ -30,153 +30,94 @@ namespace MindgemAPI.Models
         // Récupération du cours d'une crypto-monnaie via l'API Kraken
         public Double getCurrentKrakenPrice(String currencyFrom, String currencyTo)
         {
-            try
-            {
-                WebResponse response = httpGetRequest(URL_PUBLIC_TICKER_KRAKEN + currencyFrom + currencyTo);
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                    String json = reader.ReadToEnd();
-                    if (!String.IsNullOrEmpty(json))
-                    {
-                        string currencyValueFromKraken = getPairCode("kraken",currencyFrom, currencyTo);
-                        JToken selectSpecificNodeContent = JObject.Parse(json)["result"][currencyValueFromKraken];
-                        String jsonfinal = selectSpecificNodeContent.ToString();
-                        TickerItem ti = JsonConvert.DeserializeObject<TickerItem>(jsonfinal);
-                        //Réfléchir à comment enlever la ligne du dessous
-                        //Thèse à écarter : créer un constructeur dans TickerItem
-                        ti.mapAskInfo();
-
-                        return Convert.ToDouble(ti.askInfoMapped["price"], new NumberFormatInfo());
-                    }
-                    else
-                    {
-                        throw new Exception("Le Json retourné est vide");
-                    }
-                }
-            }
-            catch (WebException webEx)
-            {
-                Console.WriteLine("Le délai d'attente a été dépassé ou une erreur s'est produite pendant le traitement de la requête");
-                Console.WriteLine("Message d'exception : " + webEx.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception inconnue : " + e.Message);
-            }
-            return Double.NaN;
+            TickerItem ti = JsonConvert.DeserializeObject<TickerItem>(getJson("ticker", currencyFrom, currencyTo));
+            ti.mapAskInfo();
+            return Convert.ToDouble(ti.askInfoMapped["price"], new NumberFormatInfo());
         }
 
+        // Récupération du nombre de trades effectués lors des dernières 24 heures
         public Double getTradesLastDay(String currencyFrom, String currencyTo)
-        {
-            try
-            {
-                WebResponse response = httpGetRequest(URL_PUBLIC_TICKER_KRAKEN + currencyFrom + currencyTo);
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                    String json = reader.ReadToEnd();
-                    if (!String.IsNullOrEmpty(json))
-                    {
-                        string currencyValueFromKraken = getPairCode("kraken", currencyFrom, currencyTo);
-                        JToken selectSpecificNodeContent = JObject.Parse(json)["result"][currencyValueFromKraken];
-                        String jsonfinal = selectSpecificNodeContent.ToString();
-                        TickerItem ti = JsonConvert.DeserializeObject<TickerItem>(jsonfinal);
-                        //Réfléchir à comment enlever la ligne du dessous
-                        //Thèse à écarter : créer un constructeur dans TickerItem
-                        ti.mapNumberOfTrades();
-
-                        return Convert.ToDouble(ti.numberOfTradesMap["last24hours"], new NumberFormatInfo());
-                    }
-                    else
-                    {
-                        throw new Exception("Le Json retourné est vide");
-                    }
-                }
-            }
-            catch (WebException webEx)
-            {
-                Console.WriteLine("Le délai d'attente a été dépassé ou une erreur s'est produite pendant le traitement de la requête");
-                Console.WriteLine("Message d'exception : " + webEx.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception inconnue : " + e.Message);
-            }
-            return Double.NaN;
+        {                        
+            TickerItem ti = JsonConvert.DeserializeObject<TickerItem>(getJson("ticker", currencyFrom,currencyTo));
+            ti.mapNumberOfTrades();
+            return Convert.ToDouble(ti.numberOfTradesMap["last24hours"], new NumberFormatInfo());
         }
 
-        public Double getOrderBook(String currencyFrom, String currencyTo)
-        {
-            try
-            {
-                WebResponse response = httpGetRequest(URL_PUBLIC_ORDERBOOK_KRAKEN + currencyFrom + currencyTo);
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                    String json = reader.ReadToEnd();
-                    if (!String.IsNullOrEmpty(json))
-                    {
-                        //
-                    }
-                    else
-                    {
-                        throw new Exception("Le Json retourné est vide");
-                    }
-                }
-            }
-            catch (WebException webEx)
-            {
-                Console.WriteLine("Le délai d'attente a été dépassé ou une erreur s'est produite pendant le traitement de la requête");
-                Console.WriteLine("Message d'exception : " + webEx.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception inconnue : " + e.Message);
-            }
-            return Double.NaN;
-        }
-
-        // Récupération du cours de l'Ether via l'API Kraken
+        // Récupération de l'heure du serveur Kraken
         public String getServerTime()
         {
-            try
-            {
-                WebResponse response = httpGetRequest(URL_PUBLIC_SERVERTIME_KRAKEN);
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                    String json = null;
-                    json = reader.ReadToEnd();
-                    if (!String.IsNullOrEmpty(json))
-                    {
-                        var jsonObject = JsonConvert.DeserializeObject<ServerItem.ServerObject>(json);
-                        return Convert.ToString(jsonObject.result.unixtime);
-                    }
-                    else
-                    {
-                        throw new Exception("Le Json retourné est vide");
-                    }
-                }
-            }
-            catch (WebException webEx)
-            {
-                Console.WriteLine("Le délai d'attente a été dépassé ou une erreur s'est produite pendant le traitement de la requête");
-                Console.WriteLine("Message d'exception : " + webEx.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception inconnue : " + e.Message);
-            }
-            return "";
+            //TODO : reprendre quand le commit des DataObjects sera à jour
+            //ServerItem si = JsonConvert.DeserializeObject<ServerItem.ServerObject>(getJson("server"));
+            //return Convert.ToString(si.unixtime);
+            return "Indisponible";
         }
 
+        /*-----------*/
+        /*-- UTILS --*/
+        /*-----------*/
         private WebResponse httpGetRequest(String url)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = WebRequestMethods.Http.Get;
             request.ContentType = "application/json; charset=utf-8";
             return request.GetResponse();
+        }
+
+        public String getJson(String operationType, String currencyFrom = "", String currencyTo = "")
+        {
+            try
+            {
+                String urlKrakenApi = "";
+                switch (operationType)
+                {
+                    case "ticker":
+                        urlKrakenApi = URL_PUBLIC_TICKER_KRAKEN + currencyFrom + currencyTo;
+                        break;
+                    case "server":
+                        urlKrakenApi = URL_PUBLIC_SERVERTIME_KRAKEN;
+                        break;
+                    default:
+                        break;
+                }
+                WebResponse response = httpGetRequest(urlKrakenApi);
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    String json = reader.ReadToEnd();
+                    if (!String.IsNullOrEmpty(json))
+                    {
+                        JToken selectSpecificNodeContent = null;
+                        switch (operationType)
+                        {
+                            case "ticker":
+                                string pair = getPairCode("kraken", currencyFrom, currencyTo);
+                                selectSpecificNodeContent = JObject.Parse(json)["result"][pair];
+                                return selectSpecificNodeContent.ToString();
+                            case "server":
+                                selectSpecificNodeContent = JObject.Parse(json)["result"];
+                                return selectSpecificNodeContent.ToString();
+                            default:
+                                break;
+                        }
+
+                    }
+                    else
+                    {
+                        throw new Exception("Le Json retourné est vide");
+                    }
+                }
+            }
+            catch (WebException webEx)
+            {
+                Console.WriteLine("Le délai d'attente a été dépassé ou une erreur s'est produite pendant le traitement de la requête");
+                Console.WriteLine("Message d'exception : " + webEx.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception inconnue : " + e.Message);
+            }
+
+            return String.Empty;
         }
 
         // Plus tard : à déplacer dans une classe à part qui servira pour toutes les API où on tape.
