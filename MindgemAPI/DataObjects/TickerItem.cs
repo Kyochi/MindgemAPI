@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MindgemAPI.Tools;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,14 @@ namespace MindgemAPI.DataObjects
 {
     public class TickerItem
     {
+        //public static readonly List<string[]> defAskInfo = new List<string[]>(9) {}
+        //{ "price", "avgprice", "maxprice" };
+        public static readonly String[] defAskInfo = { "price", "avgprice", "maxprice" };
+
         [JsonProperty("a")]
-        public List<string> askInfo { get; set; }
+        [JsonConverter(typeof(CustomJsonConverter), typeof(TickerItem), "defAskInfo")]
+        public Dictionary<string, object> priceInfo;
+
         [JsonProperty("b")]
         public List<string> bidInfo { get; set; }
         [JsonProperty("c")]

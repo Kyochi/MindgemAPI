@@ -33,6 +33,7 @@ namespace MindgemAPI.Models
             TickerItem ti = JsonConvert.DeserializeObject<TickerItem>(getJson("ticker", currencyFrom, currencyTo));
             ti.mapAskInfo();
             return Convert.ToDouble(ti.askInfoMapped["price"], new NumberFormatInfo());
+
         }
 
         // Récupération du nombre de trades effectués lors des dernières 24 heures
