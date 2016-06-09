@@ -1,4 +1,5 @@
 ﻿using MindgemAPI.dataobjects;
+using MindgemAPI.utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -58,17 +59,6 @@ namespace MindgemAPI.Models
             return "Indisponible";
         }
 
-        /*-----------*/
-        /*-- UTILS --*/
-        /*-----------*/
-        private WebResponse httpGetRequest(String url)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = WebRequestMethods.Http.Get;
-            request.ContentType = "application/json; charset=utf-8";
-            return request.GetResponse();
-        }
-
         public String getJson(String operationType, String currencyFrom = "", String currencyTo = "")
         {
             try
@@ -85,7 +75,7 @@ namespace MindgemAPI.Models
                     default:
                         break;
                 }
-                WebResponse response = httpGetRequest(urlKrakenApi);
+                WebResponse response = HttpRequest.getRequest(urlKrakenApi);
                 using (Stream responseStream = response.GetResponseStream())
                 {
                     StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);

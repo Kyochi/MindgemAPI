@@ -234,6 +234,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="converter\JsonTickerConverter.cs" />
+    <Compile Include="utils\HttpRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
