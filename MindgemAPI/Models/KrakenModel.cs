@@ -63,7 +63,7 @@ namespace MindgemAPI.Models
         {
             try
             {
-                String urlKrakenApi = "";
+                String urlKrakenApi = "Unknown url";
                 switch (operationType)
                 {
                     case "ticker":
@@ -117,6 +117,7 @@ namespace MindgemAPI.Models
         }
 
         // Plus tard : à déplacer dans une classe à part qui servira pour toutes les API où on tape.
+        // Gérée le cas ou les paramètres sont null ou bullshité et mettre à jour les tests en conséquence.
         public String getPairCode(String service, String from, String to)
         {
             switch(service)
