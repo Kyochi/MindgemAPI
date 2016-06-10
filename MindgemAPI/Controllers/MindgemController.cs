@@ -5,7 +5,7 @@ using System.Web.Http;
 
 namespace MindgemAPI.Controllers
 {
-    [RoutePrefix("api/mindgem")]
+    [RoutePrefix("api")]
     public class MindgemController : ApiController
     {
         public ApiServices Services { get; set; }
@@ -22,23 +22,40 @@ namespace MindgemAPI.Controllers
             dataAccount = new KrakenModel[MAXUSERS];
         }
 
-        [Route("kraken/getprice/{from}/{to}")]
+        [Route("kraken/price/{from}/{to}")]
         public String getKrakenPrice(String from, String to)
         {
             return Convert.ToString(this.kModel.getCurrentKrakenPrice(from, to));
         }
 
-        [Route("kraken/getservtime")]
-        public String getServerTime()
+        [Route("kraken/servertime/timestamp")]
+        public String getServerTimeTimestamp()
         {
             return kModel.getServerTime();
         }
 
-        [Route("kraken/trades/{from}/{to}")]
+        [Route("kraken/servertime/rfc")]
+        public String getServerTimeRfc()
+        {
+            return "TO IMPLEMENT";
+        }
+
+        [Route("kraken/trades/lastday/{from}/{to}")]
         public String getKrakenTrades(String from, String to)
         {
             return Convert.ToString(this.kModel.getTradesLastDay(from, to));
         }
 
+        [Route("kraken/trades/currentday/{from}/{to}")]
+        public String getTradesLastDay(String from, String to)
+        {
+            return "TO IMPLEMENT";
+        }
+
+        [Route("kraken/price/opening/{from}/{to}")]
+        public String getOpeningPrice(String from, String to)
+        {
+            return "TO IMPLEMENT";
+        }
     }
 }
