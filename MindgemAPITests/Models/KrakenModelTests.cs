@@ -22,7 +22,7 @@ namespace MindgemAPI.Models.Tests
         [TestMethod]
         public void getJsonTest()
         {
-            Assert.
+            
         }
     }
 }
