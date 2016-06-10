@@ -18,9 +18,10 @@ namespace MindgemAPI.Models
         private const String URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Time";
         private const String URL_PUBLIC_ORDERBOOK_KRAKEN = "https://api.kraken.com/0/public/Depth?pair=";
 
+        public UrlBuilder urlBuilder;
         public KrakenModel()
         {
-            // Initialisation du constructeur par défaut
+            urlBuilder = new UrlBuilder();
         }
 
         // Récupération du cours d'une crypto-monnaie via l'API Kraken
@@ -86,7 +87,7 @@ namespace MindgemAPI.Models
                         switch (operationType)
                         {
                             case "ticker":
-                                string pair = getPairCode("kraken", currencyFrom, currencyTo);
+                                string pair = urlBuilder.getPairCode("kraken", currencyFrom, currencyTo);
                                 selectSpecificNodeContent = JObject.Parse(json)["result"][pair];
                                 return selectSpecificNodeContent.ToString();
                             case "server":
@@ -114,20 +115,6 @@ namespace MindgemAPI.Models
             }
 
             return String.Empty;
-        }
-
-        // Plus tard : à déplacer dans une classe à part qui servira pour toutes les API où on tape.
-        // Gérée le cas ou les paramètres sont null ou bullshité et mettre à jour les tests en conséquence.
-        public String getPairCode(String service, String from, String to)
-        {
-            switch(service)
-            {
-                case "kraken":
-                    return "X" + from + "Z" + to;
-                default:
-                    return "API service not found";
-            }
-            
         }
     }
 }
