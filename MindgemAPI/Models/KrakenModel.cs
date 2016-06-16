@@ -3,6 +3,7 @@ using MindgemAPI.utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -17,6 +18,7 @@ namespace MindgemAPI.Models
         private const String URL_PUBLIC_TICKER_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
         private const String URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Time";
         private const String URL_PUBLIC_ORDERBOOK_KRAKEN = "https://api.kraken.com/0/public/Depth?pair=";
+        private readonly List<String> KRAKEN_PUBLIC_DATA_TYPE = new List<String>(){ "ticker", "server" };
 
         public UrlBuilder urlBuilder;
         public KrakenModel()
@@ -100,9 +102,11 @@ namespace MindgemAPI.Models
                     }
                     else
                     {
-                        throw new Exception("Le Json retourné est vide");
+                        throw new JsonException("Le Json retourné est vide ");
                     }
                 }
+
+                
             }
             catch (WebException webEx)
             {
