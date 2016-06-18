@@ -11,7 +11,7 @@ namespace MindgemAPI.utils.Tests
     {
         private FileConfigReader fileReader;
         
-        [TestMethod]
+        
         public void loadDataObjectsConfigTest()
         {
             String path = @"../../../dataObjects.cfg";

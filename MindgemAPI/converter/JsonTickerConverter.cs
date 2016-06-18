@@ -6,11 +6,11 @@ using System.Reflection;
 
 namespace MindgemAPI.converter
 {
-    public class JsonTickerConverter : JsonConverter
+    public class JsonArrayToDictionaryConverter : JsonConverter
     {
         private string[] keysArray;
 
-        public JsonTickerConverter(Type containingObjectType, string keysArrayFieldName)
+        public JsonArrayToDictionaryConverter(Type containingObjectType, string keysArrayFieldName)
         {
             FieldInfo field = containingObjectType.GetField(keysArrayFieldName);
             if (field == null)

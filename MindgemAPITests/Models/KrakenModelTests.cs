@@ -48,5 +48,11 @@ namespace MindgemAPI.Models.Tests
             Assert.AreEqual(kTest.getTradesLastDay(null, null), double.NaN);
             Assert.AreEqual(kTest.getTradesLastDay(ethereum, null), double.NaN);
         }
+
+        [TestMethod]
+        public void getTimeTest()
+        {
+            Assert.AreNotEqual("Indisponible", kTest.getServerTime());
+        }
     }
 }

@@ -56,9 +56,11 @@ namespace MindgemAPI.Models
         // Récupération de l'heure du serveur Kraken
         public String getServerTime()
         {
-            //TODO : reprendre quand le commit des DataObjects sera à jour
-            //ServerItem si = JsonConvert.DeserializeObject<ServerItem.ServerObject>(getJson("server"));
-            //return Convert.ToString(si.unixtime);
+            ServerItem si = JsonConvert.DeserializeObject<ServerItem>(getJson("server"));
+            if (si != null)
+            {
+                return Convert.ToString(si.unixtime);
+            }
             return "Indisponible";
         }
 

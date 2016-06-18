@@ -1,22 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace MindgemAPI.dataobjects
 {
     public class ServerItem
     {
+        [JsonProperty("unixtime")]
+        public int unixtime { get; set; }
 
-        public class ResultServer
-        {
-            public int unixtime { get; set; }
-
-            public String rfc { get; set; }
-        }
-
-        public class ServerObject
-        {
-            public List<object> error { get; set; }
-            public ResultServer result { get; set; }
-        }
+        [JsonProperty("rfc1123")]
+        public String rfc { get; set; }
     }
 }
