@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MindgemAPI.dataobjects
 {
-    public class ServerItem
+    public class KrakenServerItem
     {
         [JsonProperty("unixtime")]
         public int unixtime { get; set; }

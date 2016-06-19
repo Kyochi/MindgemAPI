@@ -221,13 +221,15 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MindgemController.cs" />
-    <Compile Include="dataobjects\OrderBookItem.cs" />
-    <Compile Include="dataobjects\ServerItem.cs" />
-    <Compile Include="dataobjects\TickerItem.cs" />
+    <Compile Include="dataobjects\kraken\public\KrakenOrderBookItem.cs" />
+    <Compile Include="dataobjects\kraken\public\KrakenServerItem.cs" />
+    <Compile Include="dataobjects\kraken\public\KrakenTickerItem.cs" />
     <Compile Include="dataobjects\WalletItem.cs" />
     <Compile Include="exception\UrlBuilderException.cs" />
     <Compile Include="Models\IModel.cs" />
-    <Compile Include="Models\KrakenModel.cs" />
+    <Compile Include="Models\kraken\KrakenPrivateTradingModel.cs" />
+    <Compile Include="Models\kraken\KrakenPrivateUserModel.cs" />
+    <Compile Include="Models\kraken\KrakenPublicMarketModel.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />
     <Compile Include="Global.asax.cs">
@@ -254,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="dataobjects\kraken\private\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

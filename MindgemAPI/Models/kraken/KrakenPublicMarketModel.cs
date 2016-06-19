@@ -11,7 +11,7 @@ using System.Text;
 
 namespace MindgemAPI.Models
 {
-    public class KrakenModel
+    public class KrakenPublicMarketModel
     {
         public String nameAccount { get; set; }
         public int currentEtherPrice { get; set; }
@@ -23,7 +23,7 @@ namespace MindgemAPI.Models
         public UrlBuilder urlBuilder;
         public DataObjectProvider dataObjectProvider;
 
-        public KrakenModel()
+        public KrakenPublicMarketModel()
         {
             urlBuilder = new UrlBuilder();
             dataObjectProvider = new DataObjectProvider();
@@ -32,7 +32,7 @@ namespace MindgemAPI.Models
         // Récupération du cours d'une crypto-monnaie via l'API Kraken
         public Double getCurrentKrakenPrice(String currencyFrom, String currencyTo)
         {
-            TickerItem ti = dataObjectProvider.deserializeJsonToObject<TickerItem>(getJson("ticker", currencyFrom, currencyTo));
+            KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(getJson("ticker", currencyFrom, currencyTo));
             if (ti != null)
             {
                 Object returnedValue;
@@ -40,13 +40,12 @@ namespace MindgemAPI.Models
                 return Convert.ToDouble(returnedValue, new NumberFormatInfo());
             }
             return Double.NaN;
-
         }
 
         // Récupération du nombre de trades effectués lors des dernières 24 heures 
         public Double getTradesLastDay(String currencyFrom, String currencyTo, String type)
-        {                        
-            TickerItem ti = dataObjectProvider.deserializeJsonToObject<TickerItem>(getJson("ticker", currencyFrom,currencyTo));
+        {
+            KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(getJson("ticker", currencyFrom,currencyTo));
             if (ti != null)
             {
                 Object returnedValue;
@@ -58,7 +57,7 @@ namespace MindgemAPI.Models
 
         public Double getOpeningPrice(String currencyFrom, String currencyTo)
         {
-            TickerItem ti = dataObjectProvider.deserializeJsonToObject<TickerItem>(getJson("ticker", currencyFrom, currencyTo));
+            KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(getJson("ticker", currencyFrom, currencyTo));
             if (ti != null)
             {
                 return Convert.ToDouble(ti.openingPrice, new NumberFormatInfo());
@@ -69,7 +68,7 @@ namespace MindgemAPI.Models
         // Récupération de l'heure du serveur Kraken
         public String getServerTime(String type)
         {
-            ServerItem si = dataObjectProvider.deserializeJsonToObject<ServerItem>(getJson("server"));
+            KrakenServerItem si = dataObjectProvider.deserializeJsonToObject<KrakenServerItem>(getJson("server"));
             if (si != null)
             {
                 if (type.Equals("unixtime"))

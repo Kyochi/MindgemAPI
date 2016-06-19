@@ -12,14 +12,14 @@ namespace MindgemAPI.Controllers
         
         public const uint MAXUSERS = 10;
 
-        KrakenModel[] dataAccount;
-        public KrakenModel kModel;
+        KrakenPublicMarketModel[] dataAccount;
+        public KrakenPublicMarketModel kModel;
 
         // Constructeur
         public MindgemController()
         {
-            kModel = new KrakenModel();
-            dataAccount = new KrakenModel[MAXUSERS];
+            kModel = new KrakenPublicMarketModel();
+            dataAccount = new KrakenPublicMarketModel[MAXUSERS];
         }
 
         [Route("kraken/price/{from}/{to}")]

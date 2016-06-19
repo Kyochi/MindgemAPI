@@ -8,7 +8,7 @@ namespace MindgemAPI.Models.Tests
     [TestClass]
     public class KrakenModelTests
     {
-        private KrakenModel kTest = new KrakenModel();
+        private KrakenPublicMarketModel kTest = new KrakenPublicMarketModel();
         DataObjectProvider dopTest = new DataObjectProvider();
         private const string ethereum = "ETH";
         private const string bitcoin = "BTC";
@@ -82,8 +82,8 @@ namespace MindgemAPI.Models.Tests
             
                 {""unixtime"":1466332475,""rfc1123"":""Sun, 19 Jun 16 10:34:35 + 0000""}
             ";
-            
-            ServerItem siTest = dopTest.deserializeJsonToObject<ServerItem>(json);
+
+            KrakenServerItem siTest = dopTest.deserializeJsonToObject<KrakenServerItem>(json);
             Assert.AreEqual(1466332475, siTest.unixtime);
             Assert.AreEqual("Sun, 19 Jun 16 10:34:35 + 0000", siTest.rfc);
             Assert.AreNotEqual(string.Empty, kTest.getServerTime("unixtime"));
