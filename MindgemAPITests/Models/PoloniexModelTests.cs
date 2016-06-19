@@ -27,5 +27,19 @@ namespace MindgemAPITests.Models
             Assert.AreEqual(pTest.getJson("ticker", bitcoin, fake), string.Empty);
             Assert.AreNotEqual(pTest.getJson("ticker", bitcoin, ethereum), string.Empty);
         }
+
+        [TestMethod]
+        public void getCurrentPriceTest()
+        {
+            Assert.IsTrue(pTest.getCurrentPrice(bitcoin, ethereum) > 0);
+            Assert.AreNotEqual(pTest.getCurrentPrice(bitcoin, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getCurrentPrice(bitcoin, fake), double.NaN);
+            Assert.AreEqual(pTest.getCurrentPrice(fake, fake), double.NaN);
+            Assert.AreEqual(pTest.getCurrentPrice(fake, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getCurrentPrice(ethereum, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getCurrentPrice(null, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getCurrentPrice(null, null), double.NaN);
+            Assert.AreEqual(pTest.getCurrentPrice(bitcoin, null), double.NaN);
+        }
     }
 }
