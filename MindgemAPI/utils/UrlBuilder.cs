@@ -27,6 +27,8 @@ namespace MindgemAPI.utils
                 {
                     case "kraken":
                         return "X" + from + "Z" + to;
+                    case "poloniex":
+                        return from + "_" + to;
                     default:
                         return "API service not found";
                 }
