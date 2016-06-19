@@ -9,17 +9,17 @@ namespace MindgemAPI.dataobjects.poloniex.publicdata
     public class PoloniexTickerItem
     {
         [JsonProperty("last")]
-        public static readonly String last;
+        public String last { get; set; }
         [JsonProperty("lowestAsk")]
-        public static readonly String lowestAsk;
+        public String lowestAsk { get; set; }
         [JsonProperty("highestBid")]
-        public static readonly String highestBid;
+        public String highestBid { get; set; }
         [JsonProperty("percentChange")]
-        public static readonly String percentChange;
+        public String percentChange { get; set; }
         [JsonProperty("baseVolume")]
-        public static readonly String baseVolume;
+        public String baseVolume { get; set; }
         [JsonProperty("quoteVolume")]
-        public static readonly String quoteVolume;
+        public String quoteVolume { get; set; }
 
     }
 }

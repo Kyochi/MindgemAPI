@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -32,7 +33,7 @@ namespace MindgemAPI.Models.poloniex
             PoloniexTickerItem pti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", currencyFrom, currencyTo));
             if (pti != null)
             {
-                return Double.NaN;
+                return Convert.ToDouble(pti.percentChange, new NumberFormatInfo());
             }
             return Double.NaN;
         }
