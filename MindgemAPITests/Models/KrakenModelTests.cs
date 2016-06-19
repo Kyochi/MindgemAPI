@@ -86,7 +86,9 @@ namespace MindgemAPI.Models.Tests
             ServerItem siTest = dopTest.deserializeJsonToObject<ServerItem>(json);
             Assert.AreEqual(1466332475, siTest.unixtime);
             Assert.AreEqual("Sun, 19 Jun 16 10:34:35 + 0000", siTest.rfc);
-            Assert.AreNotEqual("Indisponible", kTest.getServerTime());
+            Assert.AreNotEqual(string.Empty, kTest.getServerTime("unixtime"));
+            Assert.AreNotEqual(string.Empty, kTest.getServerTime("rfc"));
+            Assert.AreEqual(string.Empty, kTest.getServerTime(fake));
         }
     }
 }

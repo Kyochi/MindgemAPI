@@ -82,11 +82,11 @@ namespace MindgemAPI.Models
                 }
                 else
                 {
-                    throw new Exception("Mauvais type");
+                    return String.Empty;
                 }
                 
             }
-            return "Indisponible";
+            return String.Empty;
         }
 
         public String getJson(String operationType, String currencyFrom = "", String currencyTo = "")

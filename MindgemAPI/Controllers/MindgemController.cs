@@ -28,16 +28,10 @@ namespace MindgemAPI.Controllers
             return Convert.ToString(this.kModel.getCurrentKrakenPrice(from, to));
         }
 
-        [Route("kraken/servertime/timestamp")]
-        public String getServerTimeTimestamp()
+        [Route("kraken/servertime/{type}")]
+        public String getServerTimeTimestamp(String type)
         {
-            return kModel.getServerTime();
-        }
-
-        [Route("kraken/servertime/rfc")]
-        public String getServerTimeRfc()
-        {
-            return "TO IMPLEMENT";
+            return kModel.getServerTime(type);
         }
 
         [Route("kraken/trades/{type}/{from}/{to}")]
