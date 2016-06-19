@@ -41,15 +41,24 @@ namespace MindgemAPI.Models.Tests
         [TestMethod]
         public void getTradesLastdayTest()
         {
-            Assert.IsTrue(kTest.getTradesLastDay(ethereum, euro) > 0);
-            Assert.AreNotEqual(kTest.getTradesLastDay(ethereum, euro), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(ethereum, fake), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(fake, fake), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(fake, euro), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(euro, ethereum), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(null, euro), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(null, null), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(ethereum, null), double.NaN);
+            Assert.IsTrue(kTest.getTradesLastDay(ethereum, euro, "today") > 0);
+            Assert.AreNotEqual(kTest.getTradesLastDay(ethereum, euro, "today"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(ethereum, fake, "today"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(fake, fake, "today"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(fake, euro, "today"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(euro, ethereum, "today"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(null, euro, "today"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(null, null, "today"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(ethereum, null, "today"), double.NaN);
+            Assert.IsTrue(kTest.getTradesLastDay(ethereum, euro, "last24hours") > 0);
+            Assert.AreNotEqual(kTest.getTradesLastDay(ethereum, euro, "last24hours"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(ethereum, fake, "last24hours"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(fake, fake, "last24hours"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(fake, euro, "last24hours"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(euro, ethereum, "last24hours"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(null, euro, "last24hours"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(null, null, "last24hours"), double.NaN);
+            Assert.AreEqual(kTest.getTradesLastDay(ethereum, null, "last24hours"), double.NaN);
         }
 
         [TestMethod]

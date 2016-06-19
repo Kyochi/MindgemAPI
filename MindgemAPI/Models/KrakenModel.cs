@@ -44,13 +44,13 @@ namespace MindgemAPI.Models
         }
 
         // Récupération du nombre de trades effectués lors des dernières 24 heures 
-        public Double getTradesLastDay(String currencyFrom, String currencyTo)
+        public Double getTradesLastDay(String currencyFrom, String currencyTo, String type)
         {                        
             TickerItem ti = dataObjectProvider.deserializeJsonToObject<TickerItem>(getJson("ticker", currencyFrom,currencyTo));
             if (ti != null)
             {
                 Object returnedValue;
-                ti.numberOfTrades.TryGetValue("last24hours", out returnedValue);
+                ti.numberOfTrades.TryGetValue(type, out returnedValue);
                 return Convert.ToDouble(returnedValue, new NumberFormatInfo());
             }
             return Double.NaN;
