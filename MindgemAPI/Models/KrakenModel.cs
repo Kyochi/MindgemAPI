@@ -56,6 +56,16 @@ namespace MindgemAPI.Models
             return Double.NaN;
         }
 
+        public Double getOpeningPrice(String currencyFrom, String currencyTo)
+        {
+            TickerItem ti = dataObjectProvider.deserializeJsonToObject<TickerItem>(getJson("ticker", currencyFrom, currencyTo));
+            if (ti != null)
+            {
+                return Convert.ToDouble(ti.openingPrice, new NumberFormatInfo());
+            }
+            return Double.NaN;
+        }
+
         // Récupération de l'heure du serveur Kraken
         public String getServerTime()
         {

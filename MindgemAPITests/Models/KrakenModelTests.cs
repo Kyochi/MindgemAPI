@@ -53,6 +53,20 @@ namespace MindgemAPI.Models.Tests
         }
 
         [TestMethod]
+        public void getOpeningPriceTest()
+        {
+            Assert.IsTrue(kTest.getOpeningPrice(ethereum, euro) > 0);
+            Assert.AreNotEqual(kTest.getOpeningPrice(ethereum, euro), double.NaN);
+            Assert.AreEqual(kTest.getOpeningPrice(ethereum, fake), double.NaN);
+            Assert.AreEqual(kTest.getOpeningPrice(fake, fake), double.NaN);
+            Assert.AreEqual(kTest.getOpeningPrice(fake, euro), double.NaN);
+            Assert.AreEqual(kTest.getOpeningPrice(euro, ethereum), double.NaN);
+            Assert.AreEqual(kTest.getOpeningPrice(null, euro), double.NaN);
+            Assert.AreEqual(kTest.getOpeningPrice(null, null), double.NaN);
+            Assert.AreEqual(kTest.getOpeningPrice(ethereum, null), double.NaN);
+        }
+
+        [TestMethod]
         public void getTimeTest()
         {
             string json = @"
