@@ -221,9 +221,10 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MindgemController.cs" />
-    <Compile Include="dataobjects\kraken\public\KrakenOrderBookItem.cs" />
-    <Compile Include="dataobjects\kraken\public\KrakenServerItem.cs" />
-    <Compile Include="dataobjects\kraken\public\KrakenTickerItem.cs" />
+    <Compile Include="dataobjects\kraken\publicdata\KrakenOrderBookItem.cs" />
+    <Compile Include="dataobjects\kraken\publicdata\KrakenServerItem.cs" />
+    <Compile Include="dataobjects\kraken\publicdata\KrakenTickerItem.cs" />
+    <Compile Include="dataobjects\poloniex\publicdata\PoloniexTickerItem.cs" />
     <Compile Include="dataobjects\WalletItem.cs" />
     <Compile Include="exception\UrlBuilderException.cs" />
     <Compile Include="Models\IModel.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Models\kraken\KrakenPrivateUserModel.cs" />
     <Compile Include="Models\kraken\KrakenPublicMarketModel.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
+    <Compile Include="Models\poloniex\PoloniexPublicMarketModel.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -256,7 +258,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="dataobjects\kraken\private\" />
+    <Folder Include="dataobjects\kraken\privatedata\" />
+    <Folder Include="dataobjects\poloniex\privatedata\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
