@@ -42,7 +42,7 @@ namespace MindgemAPI.utils.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.IO.FileNotFoundException), @"Le fichier 'C:\ok.com' est introuvable.")]
+        [ExpectedException(typeof(FileNotFoundException), @"Le fichier 'C:\ok.com' est introuvable.")]
         public void loadDataObjectConfigRaiseTestException()
         {
             this.fileReader = new FileConfigReader();

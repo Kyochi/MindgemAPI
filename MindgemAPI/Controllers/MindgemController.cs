@@ -1,7 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Mobile.Service;
 using MindgemAPI.Models;
 using System;
-using System.Diagnostics;
 using System.Web.Http;
 
 namespace MindgemAPI.Controllers

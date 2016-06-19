@@ -1,5 +1,7 @@
 ﻿using MindgemAPI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MindgemAPI.utils;
+using MindgemAPI.dataobjects;
 
 namespace MindgemAPI.Models.Tests
 {
@@ -7,6 +9,7 @@ namespace MindgemAPI.Models.Tests
     public class KrakenModelTests
     {
         private KrakenModel kTest = new KrakenModel();
+        DataObjectProvider dopTest = new DataObjectProvider();
         private const string ethereum = "ETH";
         private const string bitcoin = "BTC";
         private const string euro = "EUR";
@@ -52,6 +55,14 @@ namespace MindgemAPI.Models.Tests
         [TestMethod]
         public void getTimeTest()
         {
+            string json = @"
+            
+                {""unixtime"":1466332475,""rfc1123"":""Sun, 19 Jun 16 10:34:35 + 0000""}
+            ";
+            
+            ServerItem siTest = dopTest.deserializeJsonToObject<ServerItem>(json);
+            Assert.AreEqual(1466332475, siTest.unixtime);
+            Assert.AreEqual("Sun, 19 Jun 16 10:34:35 + 0000", siTest.rfc);
             Assert.AreNotEqual("Indisponible", kTest.getServerTime());
         }
     }
