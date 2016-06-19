@@ -40,22 +40,16 @@ namespace MindgemAPI.Controllers
             return "TO IMPLEMENT";
         }
 
-        [Route("kraken/trades/lastday/{from}/{to}")]
-        public String getKrakenTrades(String from, String to)
+        [Route("kraken/trades/{type}/{from}/{to}")]
+        public String getKrakenTrades(String from, String to, String type)
         {
-            return Convert.ToString(this.kModel.getTradesLastDay(from, to));
-        }
-
-        [Route("kraken/trades/currentday/{from}/{to}")]
-        public String getTradesLastDay(String from, String to)
-        {
-            return "TO IMPLEMENT";
+            return Convert.ToString(this.kModel.getTradesLastDay(from, to, type));
         }
 
         [Route("kraken/price/opening/{from}/{to}")]
         public String getOpeningPrice(String from, String to)
         {
-            return "TO IMPLEMENT";
+            return Convert.ToString(this.kModel.getOpeningPrice(from, to));
         }
     }
 }
