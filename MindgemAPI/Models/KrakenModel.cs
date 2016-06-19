@@ -67,12 +67,24 @@ namespace MindgemAPI.Models
         }
 
         // Récupération de l'heure du serveur Kraken
-        public String getServerTime()
+        public String getServerTime(String type)
         {
             ServerItem si = dataObjectProvider.deserializeJsonToObject<ServerItem>(getJson("server"));
             if (si != null)
             {
-                return Convert.ToString(si.unixtime);
+                if (type.Equals("unixtime"))
+                {
+                    return Convert.ToString(si.unixtime);
+                }
+                else if (type.Equals("rfc"))
+                {
+                    return si.rfc;
+                }
+                else
+                {
+                    throw new Exception("Mauvais type");
+                }
+                
             }
             return "Indisponible";
         }
