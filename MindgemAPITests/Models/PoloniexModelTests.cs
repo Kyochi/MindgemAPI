@@ -17,6 +17,7 @@ namespace MindgemAPITests.Models
         private const string ethereum = "ETH";
         private const string bitcoin = "BTC";
         private const string litecoin = "LTC";
+        private const string siacoin = "SC";
         private const string euro = "EUR";
         private const string dollar = "USD";
         private const string fake = "fakeCurrency";
@@ -63,6 +64,7 @@ namespace MindgemAPITests.Models
         public void getPriceCurrencyTest()
         {
             Assert.AreNotEqual(pTest.getPriceCurrency(ethereum, euro), double.NaN);
+            Assert.AreNotEqual(pTest.getPriceCurrency(siacoin, euro), double.NaN);
             Assert.AreEqual(pTest.getPriceCurrency(bitcoin, ethereum), double.NaN);
             Assert.AreEqual(pTest.getPriceCurrency(euro, ethereum), double.NaN);
             Assert.AreEqual(pTest.getPriceCurrency(ethereum, fake), double.NaN);

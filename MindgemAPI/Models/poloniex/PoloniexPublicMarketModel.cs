@@ -46,7 +46,8 @@ namespace MindgemAPI.Models.poloniex
             {
                 Double rateBitcoin = Convert.ToDouble(pti.last, new NumberFormatInfo());
                 // Récupérer le cours réel du bitcoin
-                int bitcoinPrice = 660;
+                KrakenPublicMarketModel kpmm = new KrakenPublicMarketModel();
+                Double bitcoinPrice = kpmm.getCurrentKrakenPrice("XBT",currencyTo);
 
                 return rateBitcoin * bitcoinPrice;
             }
