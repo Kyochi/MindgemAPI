@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MindgemAPI.utils;
 using MindgemAPI.dataobjects;
-using System;
 
 namespace MindgemAPI.Models.Tests
 {
@@ -90,12 +89,6 @@ namespace MindgemAPI.Models.Tests
             Assert.AreNotEqual(string.Empty, kTest.getServerTime("unixtime"));
             Assert.AreNotEqual(string.Empty, kTest.getServerTime("rfc"));
             Assert.AreEqual(string.Empty, kTest.getServerTime(fake));
-        }
-
-        [TestMethod]
-        public void threadLoadPublicTickerKrakenTest()
-        {
-            
         }
     }
 }
