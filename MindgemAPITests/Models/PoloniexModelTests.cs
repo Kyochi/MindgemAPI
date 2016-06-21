@@ -29,7 +29,7 @@ namespace MindgemAPITests.Models
         }
 
         [TestMethod]
-        public void getCurrentPriceTest()
+        public void getPercentChangeTest()
         {
             Assert.IsTrue(pTest.getCurrentPrice(bitcoin, ethereum) > 0);
             Assert.AreNotEqual(pTest.getCurrentPrice(bitcoin, ethereum), double.NaN);
