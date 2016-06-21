@@ -16,17 +16,7 @@ namespace MindgemAPI.dataobjects
         public static readonly String[] defHighPrice = { "today", "last24hours" };
 
         public static readonly String[] defnumberOfTrades = { "today", "last24hours" };
-
-        /*
-         *     c = last trade closed array(<price>, <lot volume>),
-         *         b = bid array(<price>, <whole lot volume>, <lot volume>),
-    v = volume array(<today>, <last 24 hours>),
-    p = volume weighted average price array(<today>, <last 24 hours>),
-    t = number of trades array(<today>, <last 24 hours>),
-    l = low array(<today>, <last 24 hours>),
-    h = high array(<today>, <last 24 hours>),
-    o = today's opening price
-         * */
+        
         [JsonProperty("a")]
         [JsonConverter(typeof(JsonArrayToDictionaryConverter), typeof(KrakenTickerItem), "defAskInfo")]
         public Dictionary<string, object> askInfo;
