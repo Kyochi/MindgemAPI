@@ -28,12 +28,53 @@ namespace MindgemAPI.Models.poloniex
             dataObjectProvider = new DataObjectProvider();
         }
 
-        public Double getCurrentPrice(String currencyFrom, String currencyTo)
+        public Double getPercentChange(String currencyFrom, String currencyTo)
         {
             PoloniexTickerItem pti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", currencyFrom, currencyTo));
             if (pti != null)
             {
                 return Convert.ToDouble(pti.percentChange, new NumberFormatInfo());
+            }
+            return Double.NaN;
+        }
+
+
+        public Double getPriceCurrency(String currencyFrom, String currencyTo)
+        {
+            PoloniexTickerItem pti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", "BTC", currencyFrom));
+            if (pti != null)
+            {
+                Double rateBitcoin = Convert.ToDouble(pti.last, new NumberFormatInfo());
+                // Récupérer le cours réel du bitcoin
+                KrakenPublicMarketModel kpmm = new KrakenPublicMarketModel();
+                Double bitcoinPrice = kpmm.getCurrentKrakenPrice("XBT",currencyTo);
+
+                return rateBitcoin * bitcoinPrice;
+            }
+            return Double.NaN;
+        }
+
+        public Double getLastExchangeRate(String currencyFrom, String currencyTo)
+        {
+            PoloniexTickerItem ptiBitcoin = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", "BTC", currencyFrom));
+            PoloniexTickerItem ptiTarget = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", "BTC", currencyTo));
+            if (ptiBitcoin != null && ptiTarget != null)
+            {
+                Double rateBitcoin = Convert.ToDouble(ptiBitcoin.last, new NumberFormatInfo());
+                Double rateTarget = Convert.ToDouble(ptiBitcoin.last, new NumberFormatInfo());
+
+                return rateBitcoin / rateTarget;
+            }
+            return Double.NaN;
+        }
+
+        //Par défaut : Bitcoin
+        public Double getLastExchangeRate(String currencyFrom)
+        {
+            PoloniexTickerItem pti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", "BTC", currencyFrom));
+            if (pti != null)
+            {
+                return Convert.ToDouble(pti.last, new NumberFormatInfo());
             }
             return Double.NaN;
         }

@@ -16,6 +16,8 @@ namespace MindgemAPITests.Models
         DataObjectProvider dopTest = new DataObjectProvider();
         private const string ethereum = "ETH";
         private const string bitcoin = "BTC";
+        private const string litecoin = "LTC";
+        private const string siacoin = "SC";
         private const string euro = "EUR";
         private const string dollar = "USD";
         private const string fake = "fakeCurrency";
@@ -29,17 +31,49 @@ namespace MindgemAPITests.Models
         }
 
         [TestMethod]
-        public void getCurrentPriceTest()
+        public void getPercentChangeTest()
         {
-            Assert.IsTrue(pTest.getCurrentPrice(bitcoin, ethereum) > 0);
-            Assert.AreNotEqual(pTest.getCurrentPrice(bitcoin, ethereum), double.NaN);
-            Assert.AreEqual(pTest.getCurrentPrice(bitcoin, fake), double.NaN);
-            Assert.AreEqual(pTest.getCurrentPrice(fake, fake), double.NaN);
-            Assert.AreEqual(pTest.getCurrentPrice(fake, bitcoin), double.NaN);
-            Assert.AreEqual(pTest.getCurrentPrice(ethereum, bitcoin), double.NaN);
-            Assert.AreEqual(pTest.getCurrentPrice(null, bitcoin), double.NaN);
-            Assert.AreEqual(pTest.getCurrentPrice(null, null), double.NaN);
-            Assert.AreEqual(pTest.getCurrentPrice(bitcoin, null), double.NaN);
+            Assert.AreNotEqual(pTest.getPercentChange(bitcoin, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getPercentChange(bitcoin, fake), double.NaN);
+            Assert.AreEqual(pTest.getPercentChange(fake, fake), double.NaN);
+            Assert.AreEqual(pTest.getPercentChange(fake, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getPercentChange(ethereum, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getPercentChange(null, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getPercentChange(null, null), double.NaN);
+            Assert.AreEqual(pTest.getPercentChange(bitcoin, null), double.NaN);
+        }
+
+        [TestMethod]
+        public void getLastExchangeRate()
+        {
+            Assert.AreNotEqual(pTest.getLastExchangeRate(ethereum, litecoin), double.NaN);
+            Assert.AreNotEqual(pTest.getLastExchangeRate(ethereum), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(bitcoin, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(bitcoin, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(bitcoin, fake), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(fake, fake), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(fake, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(ethereum, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(null, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(null, null), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(bitcoin, null), double.NaN);
+        }
+
+        [TestMethod]
+        public void getPriceCurrencyTest()
+        {
+            Assert.AreNotEqual(pTest.getPriceCurrency(ethereum, euro), double.NaN);
+            Assert.AreNotEqual(pTest.getPriceCurrency(siacoin, euro), double.NaN);
+            Assert.AreEqual(pTest.getPriceCurrency(bitcoin, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getPriceCurrency(euro, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getPriceCurrency(ethereum, fake), double.NaN);
+            Assert.AreEqual(pTest.getPriceCurrency(fake, fake), double.NaN);
+            Assert.AreEqual(pTest.getPriceCurrency(fake, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getPriceCurrency(ethereum, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getPriceCurrency(null, bitcoin), double.NaN);
+            Assert.AreEqual(pTest.getLastExchangeRate(null, null), double.NaN);
+            Assert.AreEqual(pTest.getPriceCurrency(bitcoin, null), double.NaN);
         }
     }
 }
