@@ -4,10 +4,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace MindgemAPI.Models
 {
@@ -22,39 +24,76 @@ namespace MindgemAPI.Models
 
         public UrlBuilder urlBuilder;
         public DataObjectProvider dataObjectProvider;
-        public Dictionary<String, System.Threading.Timer> loader;
+        public static Dictionary<String, System.Threading.Timer> loader = new Dictionary<string, System.Threading.Timer>();
 
-        public KrakenTickerItem[] tickerItemPair = new KrakenTickerItem[10];
+        public static Dictionary<String, KrakenTickerItem> tickerItemPair = new Dictionary<string, KrakenTickerItem>();
 
         public KrakenPublicMarketModel()
         {
             urlBuilder = new UrlBuilder();
             dataObjectProvider = new DataObjectProvider();
-            this.timerDictionaryInitializer();
         }
-
-
-
-        // Test reload des objects via un thread timer
-        public void timerDictionaryInitializer()
-        {
-            loader = new Dictionary<string, System.Threading.Timer>();
-            foreach (String str in KRAKEN_PUBLIC_DATA_TYPE)
-            {
-                loader.Add(str, null);
-            }
-            loader["ticker"] = new System.Threading.Timer((e) => reLoadDataModel("ticker", "ETH", "EUR"), null, 0, 10000);
-        }
+        
 
         public void reLoadDataModel(string dataModelToUpdate, string currencyFrom, string currencyTo)
         {
-            KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(getJson(dataModelToUpdate, currencyFrom, currencyTo));
-            tickerItemPair[0] = ti;
-            System.Diagnostics.Debug.WriteLine("Prix refresh : " + tickerItemPair[0].askInfo["price"]);
+            String jsonToDeserialize = getJson(dataModelToUpdate, currencyFrom, currencyTo);
+            KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserialize);
+            String currency = currencyFrom + currencyTo;
+            if (tickerItemPair.ContainsKey(currency))
+            {
+                tickerItemPair[currency] = ti;
+                Debug.WriteLine("Prix refresh pair : " + currency  + " = " + tickerItemPair[currency].askInfo["price"]);
+            }
+            else
+            {
+                tickerItemPair.Add(currency, ti);
+                Debug.WriteLine("Nouveau prix pair : " + currency + " = " + tickerItemPair[currency].askInfo["price"]);
+            }
+                
+            
+        }
+       
+        // Récupération du cours d'une crypto-monnaie via l'API Kraken
+        public Double getCurrentKrakenPriceV2(String currencyFrom, String currencyTo)
+        {
+
+            try
+            {
+                String currency = currencyFrom + currencyTo;
+                if (loader.ContainsKey("ticker" + currency))
+                {
+                    Object returnedValue;
+                    tickerItemPair[currency].askInfo.TryGetValue("price", out returnedValue);
+                    System.Diagnostics.Debug.WriteLine("Renvoi du prix au client sans appel kraken" + returnedValue);
+                    return Convert.ToDouble(returnedValue, new NumberFormatInfo());
+                }
+                else
+                {
+                    loader.Add("ticker" + currency, new Timer((e) => reLoadDataModel("ticker", currencyFrom, currencyTo), null, 0, 10000));
+                    Thread.Sleep(3000);
+
+                    if (tickerItemPair.ContainsKey(currency))
+                    {
+                        Object returnedValue;
+                        tickerItemPair[currency].askInfo.TryGetValue("price", out returnedValue);
+                        return Convert.ToDouble(returnedValue, new NumberFormatInfo());
+                    }
+                    return Double.NaN;
+                }
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.WriteLine("Problème dans la déserialisation du json : " + jsonEx.Message);
+                return Double.NaN;
+            }
+            catch (ArgumentNullException argNullEx)
+            {
+                Debug.WriteLine("La valeur demandée est nulle : " + argNullEx.Message);
+                return Double.NaN;
+            }
         }
 
-
-       
         // Récupération du cours d'une crypto-monnaie via l'API Kraken
         public Double getCurrentKrakenPrice(String currencyFrom, String currencyTo)
         {
@@ -67,7 +106,6 @@ namespace MindgemAPI.Models
             }
             return Double.NaN;
         }
-
         // Récupération du nombre de trades effectués lors des dernières 24 heures 
         public Double getTradesLastDay(String currencyFrom, String currencyTo, String type)
         {
