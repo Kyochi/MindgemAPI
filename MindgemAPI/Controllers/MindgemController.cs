@@ -25,7 +25,7 @@ namespace MindgemAPI.Controllers
         [Route("kraken/price/{from}/{to}")]
         public String getKrakenPrice(String from, String to)
         {
-            return Convert.ToString(this.kModel.getCurrentKrakenPrice(from, to));
+            return Convert.ToString(this.kModel.getCurrentKrakenPriceV2(from, to));
         }
 
         [Route("kraken/servertime/{type}")]
