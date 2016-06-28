@@ -20,6 +20,7 @@ namespace MindgemAPI.Models
         private const String URL_PUBLIC_TICKER_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
         private const String URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Time";
         private const String URL_PUBLIC_ORDERBOOK_KRAKEN = "https://api.kraken.com/0/public/Depth?pair=";
+        private const Double DELAY_REFRESH_TICKER = 10.0;
         private readonly List<String> KRAKEN_PUBLIC_DATA_TYPE = new List<String>(){ "ticker", "server" };
 
         public UrlBuilder urlBuilder;
@@ -27,74 +28,55 @@ namespace MindgemAPI.Models
         public static Dictionary<String, System.Threading.Timer> loader = new Dictionary<string, System.Threading.Timer>();
 
         public static Dictionary<String, KrakenTickerItem> tickerItemPair = new Dictionary<string, KrakenTickerItem>();
-
-        public static List<String> listest = new List<string>();
-
+        public static Dictionary<String, DateTime> tickerTime = new Dictionary<string, DateTime>();
+        
         public KrakenPublicMarketModel()
         {
             urlBuilder = new UrlBuilder();
             dataObjectProvider = new DataObjectProvider();
         }
         
-
-        public void reLoadDataModel(Object etat)
-        {
-            // On récupère les paramètres avec le handle
-            CustomParametersWithWaitHandle parametres = (CustomParametersWithWaitHandle)etat;
-            string dataModelToUpdate = parametres.dataModel;
-            string currencyFrom = parametres.currFrom;
-            string currencyTo = parametres.currTo;
-
-            AutoResetEvent wh = parametres.WaitHandle;
-            
-            String jsonToDeserialize = getJson(dataModelToUpdate, currencyFrom, currencyTo);
-            KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserialize);
-            String currency = currencyFrom + currencyTo;
-            if (tickerItemPair.ContainsKey(currency))
-            {
-                tickerItemPair[currency] = ti;
-                Debug.WriteLine("Prix refresh pair : " + currency  + " = " + tickerItemPair[currency].askInfo["price"]);
-            }
-            else
-            {
-                tickerItemPair.Add(currency, ti);
-                Debug.WriteLine("Nouveau prix pair : " + currency + " = " + tickerItemPair[currency].askInfo["price"]);
-            }
-
-            wh.Set();
-        }
-       
         // Récupération du cours d'une crypto-monnaie via l'API Kraken
         public Double getCurrentKrakenPriceV2(String currencyFrom, String currencyTo)
         {
-
             try
             {
                 String currencyPair = currencyFrom + currencyTo;
-                if (loader.ContainsKey("ticker" + currencyPair))
+                String tickerSearch = "ticker" + currencyPair;
+                Object returnedValue;
+                DateTime dateActuelle = DateTime.Now;
+                if (tickerItemPair.ContainsKey(tickerSearch))
                 {
-                    Object returnedValue;
-                    tickerItemPair[currencyPair].askInfo.TryGetValue("price", out returnedValue);
-                    System.Diagnostics.Debug.WriteLine("Renvoi du prix au client sans appel kraken : " + returnedValue);
-                    return Convert.ToDouble(returnedValue, new NumberFormatInfo());
-                }
-                else
-                {
-                    AutoResetEvent wh = new AutoResetEvent(false);
-                    var mesParametres = new CustomParametersWithWaitHandle(wh, "ticker", currencyFrom, currencyTo);
-
-                    loader.Add("ticker" + currencyPair, new Timer(reLoadDataModel, mesParametres, 0, 10000));
-                    //Thread.Sleep(3000);
-                    wh.WaitOne();
                     
-                    if (tickerItemPair.ContainsKey(currencyPair))
+                    if ((dateActuelle - tickerTime[tickerSearch]).TotalSeconds > DELAY_REFRESH_TICKER)
                     {
-                        Object returnedValue;
-                        tickerItemPair[currencyPair].askInfo.TryGetValue("price", out returnedValue);
+                        String jsonToDeserialize = getJson("ticker", currencyFrom, currencyTo);
+                        KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserialize);
+                        tickerTime[tickerSearch] = dateActuelle;
+                        tickerItemPair[tickerSearch].askInfo.TryGetValue("price", out returnedValue);
+
+                        Debug.WriteLine("Paire connue et refresh (timeout): " + currencyPair);
                         return Convert.ToDouble(returnedValue, new NumberFormatInfo());
                     }
-                    return Double.NaN;
+
+                    tickerItemPair[tickerSearch].askInfo.TryGetValue("price", out returnedValue);
+
+                    Debug.WriteLine("Paire connue mais pas refresh: " + currencyPair);
+                    return Convert.ToDouble(returnedValue, new NumberFormatInfo());
                 }
+
+                String jsonToDeserializeNewCurrency = getJson("ticker", currencyFrom, currencyTo);
+                KrakenTickerItem newTi = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserializeNewCurrency);
+
+                tickerItemPair.Add(tickerSearch, newTi);
+                tickerTime.Add(tickerSearch, dateActuelle);
+
+                tickerTime[tickerSearch] = dateActuelle;
+                tickerItemPair[tickerSearch].askInfo.TryGetValue("price", out returnedValue);
+
+                Debug.WriteLine("Ajout d'une nouvelle paire : " + currencyPair);
+                return Convert.ToDouble(returnedValue, new NumberFormatInfo());
+                
             }
             catch (JsonException jsonEx)
             {
