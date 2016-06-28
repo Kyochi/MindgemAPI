@@ -28,6 +28,8 @@ namespace MindgemAPI.Models
 
         public static Dictionary<String, KrakenTickerItem> tickerItemPair = new Dictionary<string, KrakenTickerItem>();
 
+        public static List<String> listest = new List<string>();
+
         public KrakenPublicMarketModel()
         {
             urlBuilder = new UrlBuilder();
@@ -35,8 +37,16 @@ namespace MindgemAPI.Models
         }
         
 
-        public void reLoadDataModel(string dataModelToUpdate, string currencyFrom, string currencyTo)
+        public void reLoadDataModel(Object etat)
         {
+            // On récupère les paramètres avec le handle
+            CustomParametersWithWaitHandle parametres = (CustomParametersWithWaitHandle)etat;
+            string dataModelToUpdate = parametres.dataModel;
+            string currencyFrom = parametres.currFrom;
+            string currencyTo = parametres.currTo;
+
+            AutoResetEvent wh = parametres.WaitHandle;
+            
             String jsonToDeserialize = getJson(dataModelToUpdate, currencyFrom, currencyTo);
             KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserialize);
             String currency = currencyFrom + currencyTo;
@@ -50,8 +60,8 @@ namespace MindgemAPI.Models
                 tickerItemPair.Add(currency, ti);
                 Debug.WriteLine("Nouveau prix pair : " + currency + " = " + tickerItemPair[currency].askInfo["price"]);
             }
-                
-            
+
+            wh.Set();
         }
        
         // Récupération du cours d'une crypto-monnaie via l'API Kraken
@@ -60,23 +70,27 @@ namespace MindgemAPI.Models
 
             try
             {
-                String currency = currencyFrom + currencyTo;
-                if (loader.ContainsKey("ticker" + currency))
+                String currencyPair = currencyFrom + currencyTo;
+                if (loader.ContainsKey("ticker" + currencyPair))
                 {
                     Object returnedValue;
-                    tickerItemPair[currency].askInfo.TryGetValue("price", out returnedValue);
-                    System.Diagnostics.Debug.WriteLine("Renvoi du prix au client sans appel kraken" + returnedValue);
+                    tickerItemPair[currencyPair].askInfo.TryGetValue("price", out returnedValue);
+                    System.Diagnostics.Debug.WriteLine("Renvoi du prix au client sans appel kraken : " + returnedValue);
                     return Convert.ToDouble(returnedValue, new NumberFormatInfo());
                 }
                 else
                 {
-                    loader.Add("ticker" + currency, new Timer((e) => reLoadDataModel("ticker", currencyFrom, currencyTo), null, 0, 10000));
-                    Thread.Sleep(3000);
+                    AutoResetEvent wh = new AutoResetEvent(false);
+                    var mesParametres = new CustomParametersWithWaitHandle(wh, "ticker", currencyFrom, currencyTo);
 
-                    if (tickerItemPair.ContainsKey(currency))
+                    loader.Add("ticker" + currencyPair, new Timer(reLoadDataModel, mesParametres, 0, 10000));
+                    //Thread.Sleep(3000);
+                    wh.WaitOne();
+                    
+                    if (tickerItemPair.ContainsKey(currencyPair))
                     {
                         Object returnedValue;
-                        tickerItemPair[currency].askInfo.TryGetValue("price", out returnedValue);
+                        tickerItemPair[currencyPair].askInfo.TryGetValue("price", out returnedValue);
                         return Convert.ToDouble(returnedValue, new NumberFormatInfo());
                     }
                     return Double.NaN;
