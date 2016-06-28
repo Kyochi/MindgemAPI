@@ -239,7 +239,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="converter\JsonArrayToDictionaryConverter.cs" />
-    <Compile Include="utils\CustomParametersWithWaitHandle.cs" />
     <Compile Include="utils\DataObjectProvider.cs" />
     <Compile Include="utils\FileConfigReader.cs" />
     <Compile Include="utils\HttpRequest.cs" />
