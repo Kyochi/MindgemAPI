@@ -1,4 +1,5 @@
 ﻿using MindgemAPI.dataobjects;
+using MindgemAPI.dataobjects.kraken.publicdata;
 using MindgemAPI.utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,6 +21,7 @@ namespace MindgemAPI.Models
         private const String URL_PUBLIC_TICKER_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
         private const String URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Time";
         private const String URL_PUBLIC_ORDERBOOK_KRAKEN = "https://api.kraken.com/0/public/Depth?pair=";
+        private const String URL_PUBLIC_ASSETPAIRS_KRAKEN = "https://api.kraken.com/0/public/AssetPairs";
         private const Double DELAY_REFRESH_TICKER = 10.0;
         private readonly List<String> KRAKEN_PUBLIC_DATA_TYPE = new List<String>(){ "ticker", "server" };
 
@@ -131,6 +133,13 @@ namespace MindgemAPI.Models
             return String.Empty;
         }
 
+        public List<Object> refreshPairs()
+        {
+            KrakenPairItem kpi = dataObjectProvider.deserializeJsonToObject<KrakenPairItem>(getJson("assetpairs"));
+            
+            return kpi.krakenPairs;
+        }
+
         public String getJson(String operationType, String currencyFrom = "", String currencyTo = "")
         {
             try
@@ -142,6 +151,9 @@ namespace MindgemAPI.Models
                         urlKrakenApi = URL_PUBLIC_TICKER_KRAKEN + currencyFrom + currencyTo;
                         break;
                     case "server":
+                        urlKrakenApi = URL_PUBLIC_SERVERTIME_KRAKEN;
+                        break;
+                    case "assetpairs":
                         urlKrakenApi = URL_PUBLIC_SERVERTIME_KRAKEN;
                         break;
                     default:
@@ -162,6 +174,9 @@ namespace MindgemAPI.Models
                                 selectSpecificNodeContent = JObject.Parse(json)["result"][pair];
                                 return selectSpecificNodeContent.ToString();
                             case "server":
+                                selectSpecificNodeContent = JObject.Parse(json)["result"];
+                                return selectSpecificNodeContent.ToString();
+                            case "assetpairs":
                                 selectSpecificNodeContent = JObject.Parse(json)["result"];
                                 return selectSpecificNodeContent.ToString();
                             default:
