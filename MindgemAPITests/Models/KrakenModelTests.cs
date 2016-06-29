@@ -28,52 +28,52 @@ namespace MindgemAPI.Models.Tests
         [TestMethod]
         public void getCurrentPriceTest()
         {
-            Assert.IsTrue(kTest.getCurrentKrakenPrice(ethereum, euro) > 0);
-            Assert.AreNotEqual(kTest.getCurrentKrakenPrice(ethereum, euro), double.NaN);
-            Assert.AreEqual(kTest.getCurrentKrakenPrice(ethereum, fake), double.NaN);
-            Assert.AreEqual(kTest.getCurrentKrakenPrice(fake, fake), double.NaN);
-            Assert.AreEqual(kTest.getCurrentKrakenPrice(fake, euro), double.NaN);
-            Assert.AreEqual(kTest.getCurrentKrakenPrice(euro, ethereum), double.NaN);
-            Assert.AreEqual(kTest.getCurrentKrakenPrice(null, euro), double.NaN);
-            Assert.AreEqual(kTest.getCurrentKrakenPrice(null, null), double.NaN);
-            Assert.AreEqual(kTest.getCurrentKrakenPrice(ethereum, null), double.NaN);
+            Assert.IsTrue(kTest.getCurrentTickerInfos("askInfo", "price", ethereum, euro) > 0);
+            Assert.AreNotEqual(kTest.getCurrentTickerInfos("askInfo", "price", ethereum, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("askInfo", "price", ethereum, fake), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("askInfo", "price", fake, fake), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("askInfo", "price", fake, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("askInfo", "price", euro, ethereum), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("askInfo", "price", null, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("askInfo", "price", null, null), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("askInfo", "price", ethereum, null), double.NaN);
         }
 
         [TestMethod]
         public void getTradesLastdayTest()
         {
-            Assert.IsTrue(kTest.getTradesLastDay(ethereum, euro, "today") > 0);
-            Assert.AreNotEqual(kTest.getTradesLastDay(ethereum, euro, "today"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(ethereum, fake, "today"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(fake, fake, "today"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(fake, euro, "today"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(euro, ethereum, "today"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(null, euro, "today"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(null, null, "today"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(ethereum, null, "today"), double.NaN);
-            Assert.IsTrue(kTest.getTradesLastDay(ethereum, euro, "last24hours") > 0);
-            Assert.AreNotEqual(kTest.getTradesLastDay(ethereum, euro, "last24hours"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(ethereum, fake, "last24hours"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(fake, fake, "last24hours"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(fake, euro, "last24hours"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(euro, ethereum, "last24hours"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(null, euro, "last24hours"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(null, null, "last24hours"), double.NaN);
-            Assert.AreEqual(kTest.getTradesLastDay(ethereum, null, "last24hours"), double.NaN);
+            Assert.IsTrue(kTest.getCurrentTickerInfos("numberOfTrades", "today", ethereum, euro) > 0);
+            Assert.AreNotEqual(kTest.getCurrentTickerInfos("numberOfTrades", "today", ethereum, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "today", ethereum, fake), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "today", fake, fake), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "today", fake, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "today", euro, ethereum), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "today", null, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "today", null, null), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "today", ethereum, null), double.NaN);
+            Assert.IsTrue(kTest.getCurrentTickerInfos("numberOfTrades", "last24hours", ethereum, euro) > 0);
+            Assert.AreNotEqual(kTest.getCurrentTickerInfos("numberOfTrades", "last24hours", ethereum, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "last24hours", ethereum, fake), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "last24hours", fake, fake), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "last24hours", fake, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "last24hours", euro, ethereum), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "last24hours", null, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "last24hours", null, null), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("numberOfTrades", "last24hours", ethereum, null), double.NaN);
         }
 
         [TestMethod]
         public void getOpeningPriceTest()
         {
-            Assert.IsTrue(kTest.getOpeningPrice(ethereum, euro) > 0);
-            Assert.AreNotEqual(kTest.getOpeningPrice(ethereum, euro), double.NaN);
-            Assert.AreEqual(kTest.getOpeningPrice(ethereum, fake), double.NaN);
-            Assert.AreEqual(kTest.getOpeningPrice(fake, fake), double.NaN);
-            Assert.AreEqual(kTest.getOpeningPrice(fake, euro), double.NaN);
-            Assert.AreEqual(kTest.getOpeningPrice(euro, ethereum), double.NaN);
-            Assert.AreEqual(kTest.getOpeningPrice(null, euro), double.NaN);
-            Assert.AreEqual(kTest.getOpeningPrice(null, null), double.NaN);
-            Assert.AreEqual(kTest.getOpeningPrice(ethereum, null), double.NaN);
+            Assert.IsTrue(kTest.getCurrentTickerInfos("opening", String.Empty, ethereum, euro) > 0);
+            Assert.AreNotEqual(kTest.getCurrentTickerInfos("opening", String.Empty, ethereum, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("opening", String.Empty, ethereum, fake), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("opening", String.Empty, fake, fake), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("opening", String.Empty, fake, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("opening", String.Empty, euro, ethereum), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("opening", String.Empty, null, euro), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("opening", String.Empty, null, null), double.NaN);
+            Assert.AreEqual(kTest.getCurrentTickerInfos("opening", String.Empty, ethereum, null), double.NaN);
         }
 
         [TestMethod]
