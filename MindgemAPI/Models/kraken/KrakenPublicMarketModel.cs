@@ -45,7 +45,7 @@ namespace MindgemAPI.Models
                 if (tickerItemPair.ContainsKey(tickerSearch))
                 {
 
-                    if ((dateActuelle - tickerTime[tickerSearch]).TotalSeconds > DELAY_REFRESH_TICKER)
+                    if ((dateActuelle - tickerTime[tickerSearch]).TotalSeconds > kpi.DELAY_REFRESH_TICKER)
                     {
                         String jsonToDeserialize = getJson("ticker", currencyFrom, currencyTo);
                         KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserialize);
