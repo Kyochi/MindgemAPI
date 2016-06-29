@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -16,15 +17,8 @@ namespace MindgemAPI.Models
 {
     public class KrakenPublicMarketModel
     {
-        public String nameAccount { get; set; }
-        public int currentEtherPrice { get; set; }
-        private const String URL_PUBLIC_TICKER_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
-        private const String URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Time";
-        private const String URL_PUBLIC_ORDERBOOK_KRAKEN = "https://api.kraken.com/0/public/Depth?pair=";
-        private const String URL_PUBLIC_ASSETPAIRS_KRAKEN = "https://api.kraken.com/0/public/AssetPairs";
-        private const Double DELAY_REFRESH_TICKER = 10.0;
-        private readonly List<String> KRAKEN_PUBLIC_DATA_TYPE = new List<String>(){ "ticker", "server" };
 
+        public KrakenPropertiesItem kpi = new KrakenPropertiesItem();
         public UrlBuilder urlBuilder;
         public DataObjectProvider dataObjectProvider;
         public static Dictionary<String, System.Threading.Timer> loader = new Dictionary<string, System.Threading.Timer>();
@@ -148,13 +142,13 @@ namespace MindgemAPI.Models
                 switch (operationType)
                 {
                     case "ticker":
-                        urlKrakenApi = URL_PUBLIC_TICKER_KRAKEN + currencyFrom + currencyTo;
+                        urlKrakenApi = kpi.URL_PUBLIC_TICKER_KRAKEN + currencyFrom + currencyTo;
                         break;
                     case "server":
-                        urlKrakenApi = URL_PUBLIC_SERVERTIME_KRAKEN;
+                        urlKrakenApi = kpi.URL_PUBLIC_SERVERTIME_KRAKEN;
                         break;
                     case "assetpairs":
-                        urlKrakenApi = URL_PUBLIC_SERVERTIME_KRAKEN;
+                        urlKrakenApi = kpi.URL_PUBLIC_SERVERTIME_KRAKEN;
                         break;
                     default:
                         break;
