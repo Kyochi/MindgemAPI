@@ -25,7 +25,7 @@ namespace MindgemAPI.Controllers
         [Route("kraken/price/{from}/{to}")]
         public String getKrakenPrice(String from, String to)
         {
-            return Convert.ToString(this.kModel.getCurrentKrakenPriceV2(from, to));
+            return Convert.ToString(this.kModel.getCurrentTickerInfos("askInfo", "price", from, to));
         }
 
         [Route("kraken/servertime/{type}")]
@@ -37,13 +37,13 @@ namespace MindgemAPI.Controllers
         [Route("kraken/trades/{type}/{from}/{to}")]
         public String getKrakenTrades(String from, String to, String type)
         {
-            return Convert.ToString(this.kModel.getTradesLastDay(from, to, type));
+            return Convert.ToString(this.kModel.getCurrentTickerInfos("numberOfTrades", type, from, to));
         }
 
         [Route("kraken/price/opening/{from}/{to}")]
         public String getOpeningPrice(String from, String to)
         {
-            return Convert.ToString(this.kModel.getOpeningPrice(from, to));
+            return Convert.ToString(this.kModel.getCurrentTickerInfos("opening", String.Empty, from, to));
         }
     }
 }
