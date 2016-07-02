@@ -41,14 +41,26 @@ namespace MindgemAPI.Models.poloniex
 
         public Double getPriceCurrency(String currencyFrom, String currencyTo)
         {
-            PoloniexTickerItem pti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", "BTC", currencyFrom));
-            if (pti != null)
+            PoloniexTickerItem pti = null;
+            if (currencyFrom == "EUR") return Double.NaN;
+
+            if (!currencyFrom.Equals("BTC"))
+            {
+                pti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", "BTC", currencyFrom));
+            }
+            else
+            {
+                pti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", "BTC", currencyTo));
+
+            }
+
+            if (pti != null && currencyTo == "EUR")
             {
                 Double rateBitcoin = Convert.ToDouble(pti.last, new NumberFormatInfo());
                 // Récupérer le cours réel du bitcoin
                 KrakenPublicMarketModel kpmm = new KrakenPublicMarketModel();
-                Double bitcoinPrice = kpmm.getCurrentTickerInfos("askInfos", "price", "XBT",currencyTo);
-
+                Double bitcoinPrice = kpmm.getCurrentTickerInfos("askInfo", "price", "XBT",currencyTo);
+                Console.WriteLine(rateBitcoin * bitcoinPrice);
                 return rateBitcoin * bitcoinPrice;
             }
             return Double.NaN;

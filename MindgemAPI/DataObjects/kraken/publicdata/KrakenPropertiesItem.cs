@@ -16,10 +16,10 @@ namespace MindgemAPI.dataobjects.kraken.publicdata
 
         public KrakenPropertiesItem ()
         {
-            URL_PUBLIC_TICKER_KRAKEN = "https://api.kraken.com/0/public/AssetPairs";
+            URL_PUBLIC_TICKER_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
+            URL_PUBLIC_ASSETPAIRS_KRAKEN = "https://api.kraken.com/0/public/AssetPairs";
             URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Time";
-            URL_PUBLIC_ORDERBOOK_KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=";
-            URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Depth?pair=";
+            URL_PUBLIC_ORDERBOOK_KRAKEN = "https://api.kraken.com/0/public/Depth?pair=";
             DELAY_REFRESH_TICKER = 10.0;
         }
     }
