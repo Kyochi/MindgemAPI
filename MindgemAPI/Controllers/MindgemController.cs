@@ -28,6 +28,30 @@ namespace MindgemAPI.Controllers
             return Convert.ToString(this.kModel.getCurrentTickerInfos("askInfo", "price", from, to));
         }
 
+        [Route("kraken/volume/{type}/{from}/{to}")]
+        public String getKrakenVolume(String from, String to, String type)
+        {
+            return Convert.ToString(this.kModel.getCurrentTickerInfos("volume", type, from, to));
+        }
+
+        [Route("kraken/bidinfo/{type}/{from}/{to}")]
+        public String getBidInfo(String from, String to, String type)
+        {
+            return Convert.ToString(this.kModel.getCurrentTickerInfos("bidInfo", type, from, to));
+        }
+
+        [Route("kraken/lowest/{type}/{from}/{to}")]
+        public String getKrakenLowestPrice(String from, String to, String type)
+        {
+            return Convert.ToString(this.kModel.getCurrentTickerInfos("lowPrice", type, from, to));
+        }
+
+        [Route("kraken/highest/{type}/{from}/{to}")]
+        public String getKrakenHighestPrice(String from, String to, String type)
+        {
+            return Convert.ToString(this.kModel.getCurrentTickerInfos("highPrice", type, from, to));
+        }
+
         [Route("kraken/servertime/{type}")]
         public String getServerTimeTimestamp(String type)
         {
