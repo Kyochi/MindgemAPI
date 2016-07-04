@@ -75,8 +75,20 @@ namespace MindgemAPI.Models
                     case "askInfo":
                         tickerItemPair[tickerSearch].askInfo.TryGetValue(operationCode, out returnedValue);
                         break;
+                    case "bidInfo":
+                        tickerItemPair[tickerSearch].bidInfo.TryGetValue(operationCode, out returnedValue);
+                        break;
+                    case "volume":
+                        tickerItemPair[tickerSearch].volume.TryGetValue(operationCode, out returnedValue);
+                        break;
                     case "numberOfTrades":
                         tickerItemPair[tickerSearch].numberOfTrades.TryGetValue(operationCode, out returnedValue);
+                        break;
+                    case "lowPrice":
+                        tickerItemPair[tickerSearch].lowPrice.TryGetValue(operationCode, out returnedValue);
+                        break;
+                    case "highPrice":
+                        tickerItemPair[tickerSearch].highPrice.TryGetValue(operationCode, out returnedValue);
                         break;
                     case "opening":
                         returnedValue = tickerItemPair[tickerSearch].openingPrice;
