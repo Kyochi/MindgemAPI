@@ -221,6 +221,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MindgemController.cs" />
+    <Compile Include="converter\JsonObjectsToListConverter.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenPairItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenOrderBookItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenPropertiesItem.cs" />

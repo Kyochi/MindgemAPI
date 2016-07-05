@@ -70,10 +70,10 @@ namespace MindgemAPI.Controllers
             return Convert.ToString(this.kModel.getCurrentTickerInfos("opening", String.Empty, from, to));
         }
 
-        [Route("kraken/assetpairs")]
-        public String getAssetPairs()
-        {
-            return Convert.ToString(this.kModel.refreshPairs());
-        }
+        //[Route("kraken/assetpairs")]
+        //public String getAssetPairs()
+        //{
+        //    return Convert.ToString(this.kModel.refreshPairs());
+        //}
     }
 }

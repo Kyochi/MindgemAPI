@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MindgemAPI.converter;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,8 @@ namespace MindgemAPI.dataobjects.kraken.publicdata
 {
     public class KrakenPairItem
     {
-        //Ici qu'il faudrait désérialisé tout le contenu du résult pour récupérer tous les objets
         [JsonProperty("result")]
-        public List<Object> krakenPairs { get; set; }
+        [JsonConverter(typeof(JsonObjectsToListConverter))]
+        public List<String> krakenPairs { get; set; }
     }
 }

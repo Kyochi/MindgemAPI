@@ -137,12 +137,12 @@ namespace MindgemAPI.Models
             return String.Empty;
         }
 
-        public List<Object> refreshPairs()
-        {
-            KrakenPairItem kpi = dataObjectProvider.deserializeJsonToObject<KrakenPairItem>(getJson("assetpairs"));
+        //public List<Object> refreshPairs()
+        //{
+        //    KrakenPairItem kpi = dataObjectProvider.deserializeJsonToObject<KrakenPairItem>(getJson("assetpairs"));
             
-            return kpi.krakenPairs;
-        }
+        //    return kpi.krakenPairs;
+        //}
 
         public String getJson(String operationType, String currencyFrom = "", String currencyTo = "")
         {

@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MindgemAPI.utils;
 using MindgemAPI.dataobjects;
 using System;
+using MindgemAPI.dataobjects.kraken.publicdata;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace MindgemAPI.Models.Tests
 {
