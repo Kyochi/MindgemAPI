@@ -9,8 +9,8 @@ namespace MindgemAPI.dataobjects.kraken.publicdata
 {
     public class KrakenPairItem
     {
-        //Ici qu'il faudrait désérialisé tout le contenu du résult pour récupérer tous les objets
+        [JsonProperty("result")]
         [JsonConverter(typeof(JsonObjectsToListConverter))]
-        public HashSet<String> krakenPairs { get; set; }
+        public List<String> krakenPairs { get; set; }
     }
 }

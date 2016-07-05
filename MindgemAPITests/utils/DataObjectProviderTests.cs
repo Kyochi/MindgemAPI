@@ -17,10 +17,35 @@ namespace MindgemAPI.utils.Tests
         [TestMethod]
         public void testDeserializePair()
         {
-            string json = System.IO.File.ReadAllText(@"F:\DEV-PERSO\testjson.txt");
-            string jsonSelect = JObject.Parse(json)["result"].ToString();
+            string json = @"{
+                            ""error"": [],
+                            ""result"": {
+                                ""XDAOXETH"": {
+                                    ""altname"": ""DAOETH"",
+                                    ""aclass_base"": ""currency"",
+                                    ""base"": ""XDAO"",
+                                    ""aclass_quote"": ""currency"",
+                                    ""quote"": ""XETH"",
+                                    ""lot"": ""unit"",
+                                    ""pair_decimals"": 5
+                                },
+                                ""XDAOXXBT"": {
+                                    ""altname"": ""DAOXBT"",
+                                    ""aclass_base"": ""currency"",
+                                    ""base"": ""XDAO"",
+                                    ""aclass_quote"": ""currency"",
+                                    ""quote"": ""XXBT"",
+                                    ""lot"": ""unit"",
+                                    ""fee_volume_currency"": ""ZUSD"",
+                                    ""margin_call"": 80,
+                                    ""margin_stop"": 40
+                                }
+                            }
+                        }";
+
+            string jsonSelect = JObject.Parse(json).ToString();
             KrakenPairItem kp = JsonConvert.DeserializeObject<KrakenPairItem>(jsonSelect);
-            Assert.AreNotEqual(null, kp.krakenPairs);
+            Assert.AreEqual("XDAOXXBT", kp.krakenPairs[1]);
         }
     }
 }
