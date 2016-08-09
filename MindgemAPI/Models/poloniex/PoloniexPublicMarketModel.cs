@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -15,9 +16,12 @@ namespace MindgemAPI.Models.poloniex
 {
     public class PoloniexPublicMarketModel
     {
-        private const String URL_PUBLIC_TICKER_POLONIEX = "https://poloniex.com/public?command=returnTicker";
-        private const String URL_PUBLIC_SERVERTIME_POLONIEX = "";
-        private const String URL_PUBLIC_ORDERBOOK_POLONIEX = "";
+        public PoloniexPropertiesItem ppi = new PoloniexPropertiesItem();
+        public PoloniexPairItem ppairs = new PoloniexPairItem();
+        public static Dictionary<String, System.Threading.Timer> loader = new Dictionary<string, System.Threading.Timer>();
+
+        public static Dictionary<String, PoloniexTickerItem> tickerItemPair = new Dictionary<string, PoloniexTickerItem>();
+        public static Dictionary<String, DateTime> tickerTime = new Dictionary<string, DateTime>();
 
         public UrlBuilder urlBuilder;
         public DataObjectProvider dataObjectProvider;
@@ -26,6 +30,97 @@ namespace MindgemAPI.Models.poloniex
         {
             urlBuilder = new UrlBuilder();
             dataObjectProvider = new DataObjectProvider();
+        }
+
+        public Double getCurrentTickerInfos(String operationType, String currencyFrom, String currencyTo)
+        {
+            try
+            {
+                String currencyPair = currencyFrom + currencyTo;
+                String tickerSearch = "ticker" + currencyPair;
+                Object returnedValue;
+                DateTime dateActuelle = DateTime.Now;
+
+                /*if (kpairs.krakenPairs.Contains(urlBuilder.getPairCode("kraken", currencyFrom, currencyTo)))
+                {*/
+                    //checkpoint
+                    if (tickerItemPair.ContainsKey(tickerSearch))
+                    {
+
+                        if ((dateActuelle - tickerTime[tickerSearch]).TotalSeconds > ppi.DELAY_REFRESH_TICKER)
+                        {
+                            String jsonToDeserialize = getJson("ticker", currencyFrom, currencyTo);
+                            PoloniexTickerItem ti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(jsonToDeserialize);
+                            tickerTime[tickerSearch] = dateActuelle;
+
+                            Debug.WriteLine("Paire connue et refresh (timeout): " + currencyPair);
+                        }
+
+                        else
+                        {
+                            Debug.WriteLine("Paire connue mais pas refresh: " + currencyPair);
+                        }
+                    }
+                    else
+                    {
+                        String jsonToDeserializeNewCurrency = getJson("ticker", currencyFrom, currencyTo);
+                        PoloniexTickerItem newTi = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(jsonToDeserializeNewCurrency);
+
+                        tickerItemPair.Add(tickerSearch, newTi);
+                        tickerTime.Add(tickerSearch, dateActuelle);
+
+                        tickerTime[tickerSearch] = dateActuelle;
+
+                        Debug.WriteLine("Ajout d'une nouvelle paire : " + currencyPair);
+                    }
+
+
+                    switch (operationType)
+                    {
+                        case "last":
+                            returnedValue = tickerItemPair[tickerSearch].last;
+                            break;
+                        case "lowestAsk":
+                            returnedValue = tickerItemPair[tickerSearch].lowestAsk;
+                            break;
+                        case "highestBid":
+                            returnedValue = tickerItemPair[tickerSearch].highestBid;
+                            break;
+                        case "percentChange":
+                            returnedValue = tickerItemPair[tickerSearch].percentChange;
+                            break;
+                        case "baseVolume":
+                            returnedValue = tickerItemPair[tickerSearch].baseVolume;
+                            break;
+                        case "quoteVolume":
+                            returnedValue = tickerItemPair[tickerSearch].quoteVolume;
+                            break;
+                        default:
+                            Debug.WriteLine("Opération inconnue");
+                            returnedValue = Double.NaN;
+                            break;
+                    }
+                /*}
+                else
+                {
+                    Debug.WriteLine("Paire inconnue");
+                    returnedValue = Double.NaN;
+                }*/
+
+
+                return Convert.ToDouble(returnedValue, new NumberFormatInfo());
+
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.WriteLine("Problème dans la déserialisation du json : " + jsonEx.Message);
+                return Double.NaN;
+            }
+            catch (ArgumentNullException argNullEx)
+            {
+                Debug.WriteLine("La valeur demandée est nulle : " + argNullEx.Message);
+                return Double.NaN;
+            }
         }
 
         public Double getPercentChange(String currencyFrom, String currencyTo)
@@ -99,7 +194,7 @@ namespace MindgemAPI.Models.poloniex
                 switch (operationType)
                 {
                     case "ticker":
-                        urlPoloniexApi = URL_PUBLIC_TICKER_POLONIEX;
+                        urlPoloniexApi = ppi.URL_PUBLIC_TICKER_POLONIEX;
                         break;
                     default:
                         break;

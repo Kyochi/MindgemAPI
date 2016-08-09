@@ -227,6 +227,8 @@
     <Compile Include="dataobjects\kraken\publicdata\KrakenPropertiesItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenServerItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenTickerItem.cs" />
+    <Compile Include="dataobjects\poloniex\publicdata\PoloniexPairItem.cs" />
+    <Compile Include="dataobjects\poloniex\publicdata\PoloniexPropertiesItem.cs" />
     <Compile Include="dataobjects\poloniex\publicdata\PoloniexTickerItem.cs" />
     <Compile Include="dataobjects\WalletItem.cs" />
     <Compile Include="exception\UrlBuilderException.cs" />
