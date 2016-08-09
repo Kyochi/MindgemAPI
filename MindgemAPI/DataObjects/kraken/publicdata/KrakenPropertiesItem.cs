@@ -13,6 +13,7 @@ namespace MindgemAPI.dataobjects.kraken.publicdata
         public string URL_PUBLIC_ORDERBOOK_KRAKEN { get; }
         public string URL_PUBLIC_ASSETPAIRS_KRAKEN { get; }
         public Double DELAY_REFRESH_TICKER { get; }
+        public Double DELAY_REFRESH_PAIRS { get; }
 
         public KrakenPropertiesItem ()
         {
@@ -21,6 +22,7 @@ namespace MindgemAPI.dataobjects.kraken.publicdata
             URL_PUBLIC_SERVERTIME_KRAKEN = "https://api.kraken.com/0/public/Time";
             URL_PUBLIC_ORDERBOOK_KRAKEN = "https://api.kraken.com/0/public/Depth?pair=";
             DELAY_REFRESH_TICKER = 10.0;
+            DELAY_REFRESH_PAIRS = 100.0;
         }
     }
 }

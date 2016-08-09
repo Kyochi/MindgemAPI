@@ -17,6 +17,7 @@ namespace MindgemAPI.Models
     {
 
         public KrakenPropertiesItem kpi = new KrakenPropertiesItem();
+        public KrakenPairItem kpairs = new KrakenPairItem();
         public UrlBuilder urlBuilder;
         public DataObjectProvider dataObjectProvider;
         public static Dictionary<String, System.Threading.Timer> loader = new Dictionary<string, System.Threading.Timer>();
@@ -39,65 +40,78 @@ namespace MindgemAPI.Models
                 String tickerSearch = "ticker" + currencyPair;
                 Object returnedValue;
                 DateTime dateActuelle = DateTime.Now;
-                //checkpoint
-                if (tickerItemPair.ContainsKey(tickerSearch))
+
+                String pairToDeserialize = getJson("assetpairs");
+                kpairs = dataObjectProvider.deserializeJsonToObject<KrakenPairItem>(pairToDeserialize);
+
+                if (kpairs.krakenPairs.Contains(urlBuilder.getPairCode("kraken", currencyFrom, currencyTo)))
                 {
-
-                    if ((dateActuelle - tickerTime[tickerSearch]).TotalSeconds > kpi.DELAY_REFRESH_TICKER)
+                    //checkpoint
+                    if (tickerItemPair.ContainsKey(tickerSearch))
                     {
-                        String jsonToDeserialize = getJson("ticker", currencyFrom, currencyTo);
-                        KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserialize);
-                        tickerTime[tickerSearch] = dateActuelle;
 
-                        Debug.WriteLine("Paire connue et refresh (timeout): " + currencyPair);
+                        if ((dateActuelle - tickerTime[tickerSearch]).TotalSeconds > kpi.DELAY_REFRESH_TICKER)
+                        {
+                            String jsonToDeserialize = getJson("ticker", currencyFrom, currencyTo);
+                            KrakenTickerItem ti = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserialize);
+                            tickerTime[tickerSearch] = dateActuelle;
+
+                            Debug.WriteLine("Paire connue et refresh (timeout): " + currencyPair);
+                        }
+
+                        else
+                        {
+                            Debug.WriteLine("Paire connue mais pas refresh: " + currencyPair);
+                        }
                     }
-
                     else
                     {
-                        Debug.WriteLine("Paire connue mais pas refresh: " + currencyPair);
+                        String jsonToDeserializeNewCurrency = getJson("ticker", currencyFrom, currencyTo);
+                        KrakenTickerItem newTi = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserializeNewCurrency);
+
+                        tickerItemPair.Add(tickerSearch, newTi);
+                        tickerTime.Add(tickerSearch, dateActuelle);
+
+                        tickerTime[tickerSearch] = dateActuelle;
+
+                        Debug.WriteLine("Ajout d'une nouvelle paire : " + currencyPair);
                     }
-                }
-                else
+                
+
+                    switch (operationType)
+                    {
+                        case "askInfo":
+                            tickerItemPair[tickerSearch].askInfo.TryGetValue(operationCode, out returnedValue);
+                            break;
+                        case "bidInfo":
+                            tickerItemPair[tickerSearch].bidInfo.TryGetValue(operationCode, out returnedValue);
+                            break;
+                        case "volume":
+                            tickerItemPair[tickerSearch].volume.TryGetValue(operationCode, out returnedValue);
+                            break;
+                        case "numberOfTrades":
+                            tickerItemPair[tickerSearch].numberOfTrades.TryGetValue(operationCode, out returnedValue);
+                            break;
+                        case "lowPrice":
+                            tickerItemPair[tickerSearch].lowPrice.TryGetValue(operationCode, out returnedValue);
+                            break;
+                        case "highPrice":
+                            tickerItemPair[tickerSearch].highPrice.TryGetValue(operationCode, out returnedValue);
+                            break;
+                        case "opening":
+                            returnedValue = tickerItemPair[tickerSearch].openingPrice;
+                            break;
+                        default:
+                            Debug.WriteLine("Opération inconnue");
+                            returnedValue = Double.NaN;
+                            break;
+                    }
+                } else
                 {
-                    String jsonToDeserializeNewCurrency = getJson("ticker", currencyFrom, currencyTo);
-                    KrakenTickerItem newTi = dataObjectProvider.deserializeJsonToObject<KrakenTickerItem>(jsonToDeserializeNewCurrency);
-
-                    tickerItemPair.Add(tickerSearch, newTi);
-                    tickerTime.Add(tickerSearch, dateActuelle);
-
-                    tickerTime[tickerSearch] = dateActuelle;
-
-                    Debug.WriteLine("Ajout d'une nouvelle paire : " + currencyPair);
+                    Debug.WriteLine("Paire inconnue");
+                    returnedValue = 99.0;
                 }
 
-                switch (operationType)
-                {
-                    case "askInfo":
-                        tickerItemPair[tickerSearch].askInfo.TryGetValue(operationCode, out returnedValue);
-                        break;
-                    case "bidInfo":
-                        tickerItemPair[tickerSearch].bidInfo.TryGetValue(operationCode, out returnedValue);
-                        break;
-                    case "volume":
-                        tickerItemPair[tickerSearch].volume.TryGetValue(operationCode, out returnedValue);
-                        break;
-                    case "numberOfTrades":
-                        tickerItemPair[tickerSearch].numberOfTrades.TryGetValue(operationCode, out returnedValue);
-                        break;
-                    case "lowPrice":
-                        tickerItemPair[tickerSearch].lowPrice.TryGetValue(operationCode, out returnedValue);
-                        break;
-                    case "highPrice":
-                        tickerItemPair[tickerSearch].highPrice.TryGetValue(operationCode, out returnedValue);
-                        break;
-                    case "opening":
-                        returnedValue = tickerItemPair[tickerSearch].openingPrice;
-                        break;
-                    default:
-                        Debug.WriteLine("Opération inconnue");
-                        returnedValue = Double.NaN;
-                        break;
-                }
 
                 return Convert.ToDouble(returnedValue, new NumberFormatInfo());
 
@@ -137,12 +151,16 @@ namespace MindgemAPI.Models
             return String.Empty;
         }
 
-        //public List<Object> refreshPairs()
-        //{
-        //    KrakenPairItem kpi = dataObjectProvider.deserializeJsonToObject<KrakenPairItem>(getJson("assetpairs"));
-            
-        //    return kpi.krakenPairs;
-        //}
+        public String getKrakenPairs()
+        {
+            KrakenPairItem kpairtest = dataObjectProvider.deserializeJsonToObject<KrakenPairItem>(getJson("assetpairs"));
+            if (kpairtest != null)
+            {
+                return Convert.ToString(kpairtest.krakenPairs);
+
+            }
+            return String.Empty;
+        }
 
         public String getJson(String operationType, String currencyFrom = "", String currencyTo = "")
         {
@@ -158,7 +176,7 @@ namespace MindgemAPI.Models
                         urlKrakenApi = kpi.URL_PUBLIC_SERVERTIME_KRAKEN;
                         break;
                     case "assetpairs":
-                        urlKrakenApi = kpi.URL_PUBLIC_SERVERTIME_KRAKEN;
+                        urlKrakenApi = kpi.URL_PUBLIC_ASSETPAIRS_KRAKEN;
                         break;
                     default:
                         break;
