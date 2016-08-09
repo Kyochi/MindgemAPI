@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Mobile.Service;
 using MindgemAPI.Models;
+using MindgemAPI.Models.poloniex;
 using System;
 using System.Web.Http;
 
@@ -14,11 +15,13 @@ namespace MindgemAPI.Controllers
 
         KrakenPublicMarketModel[] dataAccount;
         public KrakenPublicMarketModel kModel;
+        public PoloniexPublicMarketModel pModel;
 
         // Constructeur
         public MindgemController()
         {
             kModel = new KrakenPublicMarketModel();
+            pModel = new PoloniexPublicMarketModel();
             dataAccount = new KrakenPublicMarketModel[MAXUSERS];
         }
 
@@ -74,6 +77,14 @@ namespace MindgemAPI.Controllers
         public String getAssetPairs()
         {
             return Convert.ToString(this.kModel.getKrakenPairs());
+        }
+
+        /*-------------------------------------------*/
+
+        [Route("poloniex/price/{from}/{to}")]
+        public String getPoloniexPrice(String from, String to)
+        {
+            return Convert.ToString(this.pModel.getCurrentTickerInfos("last", from, to));
         }
     }
 }

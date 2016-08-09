@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MindgemAPI.dataobjects.poloniex.publicdata
 {
-    public class Class1
+    public class PoloniexPairItem
     {
     }
 }

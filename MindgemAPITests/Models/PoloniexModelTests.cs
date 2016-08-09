@@ -75,5 +75,31 @@ namespace MindgemAPITests.Models
             Assert.AreEqual(pTest.getLastExchangeRate(null, null), double.NaN);
             Assert.AreEqual(pTest.getPriceCurrency(bitcoin, null), double.NaN);
         }
+
+        [TestMethod]
+        public void getTickerInfos()
+        {
+            Assert.AreNotEqual(pTest.getCurrentTickerInfos("last", bitcoin, ethereum), double.NaN);
+            Assert.AreNotEqual(pTest.getCurrentTickerInfos("lowestAsk", bitcoin, ethereum), double.NaN);
+            Assert.AreNotEqual(pTest.getCurrentTickerInfos("percentChange", bitcoin, ethereum), double.NaN);
+            Assert.AreNotEqual(pTest.getCurrentTickerInfos("highestBid", bitcoin, ethereum), double.NaN);
+            Assert.AreNotEqual(pTest.getCurrentTickerInfos("quoteVolume", bitcoin, ethereum), double.NaN);
+            Assert.AreNotEqual(pTest.getCurrentTickerInfos("baseVolume", bitcoin, ethereum), double.NaN);
+
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestask", bitcoin, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("LOWESTASK", bitcoin, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowest Ask", bitcoin, ethereum), double.NaN);
+
+            // Null exception, fait planter, on ne retrouve même pas le NaN
+            // TODO : vérification de la paire avant traitement
+
+            /*Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, euro), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, fake), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", fake, bitcoin), double.NaN);*/
+
+            /*Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", null, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", null, null), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, null), double.NaN);*/
+        }
     }
 }
