@@ -109,7 +109,7 @@ namespace MindgemAPI.Models
                 } else
                 {
                     Debug.WriteLine("Paire inconnue");
-                    returnedValue = 99.0;
+                    returnedValue = Double.NaN;
                 }
 
 
@@ -199,7 +199,7 @@ namespace MindgemAPI.Models
                                 selectSpecificNodeContent = JObject.Parse(json)["result"];
                                 return selectSpecificNodeContent.ToString();
                             case "assetpairs":
-                                selectSpecificNodeContent = JObject.Parse(json)["result"];
+                                selectSpecificNodeContent = JObject.Parse(json);
                                 return selectSpecificNodeContent.ToString();
                             default:
                                 break;

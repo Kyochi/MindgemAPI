@@ -14,6 +14,7 @@ namespace MindgemAPI.utils.Tests
     [TestClass()]
     public class DataObjectProviderTests
     {
+        public DataObjectProvider dataObjectProvider = new DataObjectProvider(); 
         [TestMethod]
         public void testDeserializePair()
         {
@@ -44,7 +45,8 @@ namespace MindgemAPI.utils.Tests
                         }";
 
             string jsonSelect = JObject.Parse(json).ToString();
-            KrakenPairItem kp = JsonConvert.DeserializeObject<KrakenPairItem>(jsonSelect);
+            KrakenPairItem kp = dataObjectProvider.deserializeJsonToObject<KrakenPairItem>(jsonSelect);
+           // KrakenPairItem kp = JsonConvert.DeserializeObject<KrakenPairItem>(jsonSelect);
             Assert.AreEqual("XDAOXXBT", kp.krakenPairs[1]);
         }
     }
