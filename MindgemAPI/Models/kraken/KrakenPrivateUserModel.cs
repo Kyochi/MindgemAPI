@@ -7,5 +7,9 @@ namespace MindgemAPI.Models.kraken
 {
     public class KrakenPrivateUserModel
     {
+        public String getPrivateData(String operationType, String apikey, String privateApiKey)
+        {
+            return "";
+        }
     }
 }
