@@ -186,6 +186,16 @@ namespace MindgemAPI.Models.poloniex
             return Double.NaN;
         }
 
+        public String getCurrencyDetails(String currencyFrom)
+        {
+            PoloniexCurrencyItem pci = dataObjectProvider.deserializeJsonToObject<PoloniexCurrencyItem>(getJson("currency", currencyFrom));
+            if (pci != null)
+            {
+                return pci.name;
+            }
+            return String.Empty;
+        }
+
         public String getJson(String operationType, String currencyFrom = "", String currencyTo = "")
         {
             try
@@ -195,6 +205,9 @@ namespace MindgemAPI.Models.poloniex
                 {
                     case "ticker":
                         urlPoloniexApi = ppi.URL_PUBLIC_TICKER_POLONIEX;
+                        break;
+                    case "currency":
+                        urlPoloniexApi = ppi.URL_PUBLIC_CURRENCIES_POLONIEX;
                         break;
                     default:
                         break;
@@ -212,6 +225,9 @@ namespace MindgemAPI.Models.poloniex
                             case "ticker":
                                 string pair = urlBuilder.getPairCode("poloniex", currencyFrom, currencyTo);
                                 selectSpecificNodeContent = JObject.Parse(json)[pair];
+                                return selectSpecificNodeContent.ToString();
+                            case "currency":
+                                selectSpecificNodeContent = JObject.Parse(json)[currencyFrom];
                                 return selectSpecificNodeContent.ToString();
                             default:
                                 break;
