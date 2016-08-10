@@ -139,7 +139,11 @@ namespace MindgemAPI.Models.poloniex
             PoloniexTickerItem pti = null;
             if (currencyFrom == "EUR") return Double.NaN;
 
-            if (!currencyFrom.Equals("BTC"))
+            if (currencyFrom == null || currencyTo == null)
+            {
+                return Double.NaN;
+            }
+            else if (!currencyFrom.Equals("BTC"))
             {
                 pti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", "BTC", currencyFrom));
             }

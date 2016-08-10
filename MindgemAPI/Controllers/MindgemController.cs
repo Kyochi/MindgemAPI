@@ -86,5 +86,11 @@ namespace MindgemAPI.Controllers
         {
             return Convert.ToString(this.pModel.getCurrentTickerInfos("last", from, to));
         }
+
+        [Route("poloniex/currency/{name}/{type}")]
+        public String getPoloniexCurrencies(String name, String type)
+        {
+            return Convert.ToString(this.pModel.getCurrencyDetails(name, type));
+        }
     }
 }

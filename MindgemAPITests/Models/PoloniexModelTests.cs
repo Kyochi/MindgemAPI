@@ -109,7 +109,7 @@ namespace MindgemAPITests.Models
         }
 
         [TestMethod]
-        [ExpectedException(typeof(JsonException), @"Json deserialize fail")]
+        [ExpectedException(typeof(NullReferenceException))]
         public void getCurrencyDetailsException()
         {
             Assert.AreEqual(pTest.getCurrencyDetails(fake, "name"), string.Empty);
