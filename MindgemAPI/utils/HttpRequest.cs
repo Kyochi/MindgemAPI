@@ -24,7 +24,6 @@ namespace MindgemAPI.utils
             Byte[] dataContent = HttpRequest.postDataToBytes(dataPost);
             request.ContentType = contentType;
             
-
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = dataContent.Length;
@@ -38,8 +37,8 @@ namespace MindgemAPI.utils
             dataStream.Write(dataContent, 0, dataContent.Length);
             dataStream.Flush();
             dataStream.Close();
-            return request.GetResponse();
 
+            return request.GetResponse();
         }
 
         public static Byte[] postDataToBytes(Dictionary<String, String> dataPostToEncode)

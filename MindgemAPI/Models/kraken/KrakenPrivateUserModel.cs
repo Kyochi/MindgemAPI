@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MindgemAPI.utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,9 +8,18 @@ namespace MindgemAPI.Models.kraken
 {
     public class KrakenPrivateUserModel
     {
-        public String getPrivateData(String operationType, String apikey, String privateApiKey)
+        public Encoder encoder = new Encoder();
+        public String getPrivateData(String operationType, String apiKey, String privateApiKey)
         {
             return "";
+        }
+
+        private Dictionary<String, String> getHeader(String apikey, String sign)
+        {
+            Dictionary<String, String> headers = new Dictionary<String, String>();
+            headers.Add("API-Key: ", apikey);
+            headers.Add("API-Sign: ", encoder.Base64Encode(sign));
+            return headers;
         }
     }
 }
