@@ -95,8 +95,8 @@ namespace MindgemAPITests.Models
         [TestMethod]
         public void getCurrencyInfo()
         {
-            Assert.AreNotEqual(pTest.getJson("currency", bitcoin, null), string.Empty);
-            Assert.AreEqual(pTest.getJson("currency", fake, null), string.Empty);
+            Assert.AreNotEqual(pTest.getCurrency(bitcoin), string.Empty);
+            Assert.AreEqual(pTest.getCurrency(fake), string.Empty);
         }
 
         [TestMethod]

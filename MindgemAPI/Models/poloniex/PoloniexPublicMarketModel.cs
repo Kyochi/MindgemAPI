@@ -220,6 +220,16 @@ namespace MindgemAPI.Models.poloniex
             return String.Empty;
         }
 
+        public String getCurrency(String currencyFrom)
+        {
+            String json = getJson("currency", currencyFrom);
+            if (json != "")
+            {
+                return json;
+            }
+            return String.Empty;
+        }
+
         public String getJson(String operationType, String currencyFrom = "", String currencyTo = "")
         {
             try
