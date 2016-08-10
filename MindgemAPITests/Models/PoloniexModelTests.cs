@@ -101,5 +101,20 @@ namespace MindgemAPITests.Models
             Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", null, null), double.NaN);
             Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, null), double.NaN);*/
         }
+
+        [TestMethod]
+        public void getCurrencyInfo()
+        {
+            Assert.AreNotEqual(pTest.getJson("currency", bitcoin, null), string.Empty);
+            Assert.AreEqual(pTest.getJson("currency", fake, null), string.Empty);
+        }
+
+        [TestMethod]
+        public void getCurrencyDetailsInfo()
+        {
+            //BETA, il faut améliorer, en l'état ça ne renvoie que le nom
+            Assert.AreNotEqual(pTest.getCurrencyDetails(bitcoin), string.Empty);
+            Assert.AreEqual(pTest.getCurrencyDetails(bitcoin), "Bitcoin");
+        }
     }
 }
