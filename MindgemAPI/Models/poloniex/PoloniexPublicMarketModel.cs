@@ -186,12 +186,32 @@ namespace MindgemAPI.Models.poloniex
             return Double.NaN;
         }
 
-        public String getCurrencyDetails(String currencyFrom)
+        public String getCurrencyDetails(String currencyFrom, String operationType)
         {
             PoloniexCurrencyItem pci = dataObjectProvider.deserializeJsonToObject<PoloniexCurrencyItem>(getJson("currency", currencyFrom));
             if (pci != null)
             {
-                return pci.name;
+                switch (operationType)
+                {
+                    case "id":
+                        return pci.id;
+                    case "name":
+                        return pci.name;
+                    case "txFee":
+                        return pci.txFee;
+                    case "minConf":
+                        return pci.minConf;
+                    case "depositAddress":
+                        return pci.depositAddress;
+                    case "disabled":
+                        return pci.disabled;
+                    case "delisted":
+                        return pci.delisted;
+                    case "frozen":
+                        return pci.frozen;
+                    default:
+                        break;
+                }
             }
             return String.Empty;
         }
