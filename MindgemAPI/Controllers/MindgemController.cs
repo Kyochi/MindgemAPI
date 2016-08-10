@@ -84,7 +84,13 @@ namespace MindgemAPI.Controllers
         [Route("poloniex/price/{from}/{to}")]
         public String getPoloniexPrice(String from, String to)
         {
-            return Convert.ToString(this.pModel.getCurrentTickerInfos("last", from, to));
+            return Convert.ToString(this.pModel.getPriceCurrency(from, to));
+        }
+
+        [Route("poloniex/exchange/{from}")]
+        public String getPoloniexExchangeBitcoinRate(String from)
+        {
+            return Convert.ToString(this.pModel.getLastExchangeRate(from));
         }
 
         [Route("poloniex/currency/{name}/{type}")]
