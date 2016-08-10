@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 
 namespace MindgemAPI.utils
 {
@@ -9,8 +10,16 @@ namespace MindgemAPI.utils
         public T deserializeJsonToObject<T>(String json)
         {
             T dataObject = JsonConvert.DeserializeObject<T>(json);
-            Console.WriteLine(dataObject.ToString());
-            if (dataObject == null) throw new JsonException("Json deserialize fail");
+
+            try
+            {
+                if (dataObject == null) throw new JsonException("Json deserialize fail");
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.WriteLine(jsonEx.Message);
+                
+            }
 
             return dataObject;
         }

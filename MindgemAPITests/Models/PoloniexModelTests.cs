@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MindgemAPI.Models.poloniex;
 using MindgemAPI.utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,32 +90,38 @@ namespace MindgemAPITests.Models
             Assert.AreEqual(pTest.getCurrentTickerInfos("lowestask", bitcoin, ethereum), double.NaN);
             Assert.AreEqual(pTest.getCurrentTickerInfos("LOWESTASK", bitcoin, ethereum), double.NaN);
             Assert.AreEqual(pTest.getCurrentTickerInfos("lowest Ask", bitcoin, ethereum), double.NaN);
-
-            // Null exception, fait planter, on ne retrouve même pas le NaN
-            // TODO : vérification de la paire avant traitement
-
-            /*Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, euro), double.NaN);
-            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, fake), double.NaN);
-            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", fake, bitcoin), double.NaN);*/
-
-            /*Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", null, ethereum), double.NaN);
-            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", null, null), double.NaN);
-            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, null), double.NaN);*/
         }
 
         [TestMethod]
         public void getCurrencyInfo()
         {
-            Assert.AreNotEqual(pTest.getJson("currency", bitcoin, null), string.Empty);
-            Assert.AreEqual(pTest.getJson("currency", fake, null), string.Empty);
+            Assert.AreNotEqual(pTest.getCurrency(bitcoin), string.Empty);
+            Assert.AreEqual(pTest.getCurrency(fake), string.Empty);
         }
 
         [TestMethod]
         public void getCurrencyDetailsInfo()
         {
             //BETA, il faut améliorer, en l'état ça ne renvoie que le nom
-            Assert.AreNotEqual(pTest.getCurrencyDetails(bitcoin), string.Empty);
-            Assert.AreEqual(pTest.getCurrencyDetails(bitcoin), "Bitcoin");
+            Assert.AreNotEqual(pTest.getCurrencyDetails(bitcoin, "name"), string.Empty);
+            Assert.AreEqual(pTest.getCurrencyDetails(bitcoin, "name"), "Bitcoin");
+            Assert.IsTrue(Convert.ToDouble(pTest.getCurrencyDetails(bitcoin, "id")) > 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void getCurrencyDetailsException()
+        {
+            Assert.AreEqual(pTest.getCurrencyDetails(fake, "name"), string.Empty);
+            Assert.AreEqual(pTest.getCurrencyDetails(null, "name"), string.Empty);
+
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, euro), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, fake), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", fake, bitcoin), double.NaN);
+
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", null, ethereum), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", null, null), double.NaN);
+            Assert.AreEqual(pTest.getCurrentTickerInfos("lowestAsk", ethereum, null), double.NaN);
         }
     }
 }

@@ -137,9 +137,13 @@ namespace MindgemAPI.Models.poloniex
         public Double getPriceCurrency(String currencyFrom, String currencyTo)
         {
             PoloniexTickerItem pti = null;
-            if (currencyFrom == "EUR") return Double.NaN;
+            if (currencyFrom == "EUR" || currencyFrom == "USD") return Double.NaN;
 
-            if (!currencyFrom.Equals("BTC"))
+            if (currencyFrom == null || currencyTo == null)
+            {
+                return Double.NaN;
+            }
+            else if (!currencyFrom.Equals("BTC"))
             {
                 pti = dataObjectProvider.deserializeJsonToObject<PoloniexTickerItem>(getJson("ticker", "BTC", currencyFrom));
             }
@@ -149,12 +153,13 @@ namespace MindgemAPI.Models.poloniex
 
             }
 
-            if (pti != null && currencyTo == "EUR")
+            if (pti != null && (currencyTo == "EUR" || currencyTo == "USD"))
             {
                 Double rateBitcoin = Convert.ToDouble(pti.last, new NumberFormatInfo());
                 // Récupérer le cours réel du bitcoin
                 KrakenPublicMarketModel kpmm = new KrakenPublicMarketModel();
                 Double bitcoinPrice = kpmm.getCurrentTickerInfos("askInfo", "price", "XBT",currencyTo);
+                if (bitcoinPrice == Double.NaN) return Double.NaN;
                 Console.WriteLine(rateBitcoin * bitcoinPrice);
                 return rateBitcoin * bitcoinPrice;
             }
@@ -186,12 +191,42 @@ namespace MindgemAPI.Models.poloniex
             return Double.NaN;
         }
 
-        public String getCurrencyDetails(String currencyFrom)
+        public String getCurrencyDetails(String currencyFrom, String operationType)
         {
             PoloniexCurrencyItem pci = dataObjectProvider.deserializeJsonToObject<PoloniexCurrencyItem>(getJson("currency", currencyFrom));
             if (pci != null)
             {
-                return pci.name;
+                switch (operationType)
+                {
+                    case "id":
+                        return pci.id;
+                    case "name":
+                        return pci.name;
+                    case "txFee":
+                        return pci.txFee;
+                    case "minConf":
+                        return pci.minConf;
+                    case "depositAddress":
+                        return pci.depositAddress;
+                    case "disabled":
+                        return pci.disabled;
+                    case "delisted":
+                        return pci.delisted;
+                    case "frozen":
+                        return pci.frozen;
+                    default:
+                        break;
+                }
+            }
+            return String.Empty;
+        }
+
+        public String getCurrency(String currencyFrom)
+        {
+            String json = getJson("currency", currencyFrom);
+            if (json != "")
+            {
+                return json;
             }
             return String.Empty;
         }
