@@ -9,7 +9,6 @@ namespace MindgemAPI.dataobjects.poloniex.publicdata
 {
     public class PoloniexPairItem
     {
-        [JsonProperty("result")]
         [JsonConverter(typeof(JsonObjectsToListConverter))]
         public List<String> poloniexCurrencies { get; set; }
         public List<String> poloniexPairs { get; set; }
