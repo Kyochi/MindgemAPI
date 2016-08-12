@@ -35,7 +35,10 @@ namespace MindgemAPITests.Models
                 }
             }
             Assert.IsTrue(isOk);
-            
+
+            sign = null;
+            Dictionary<String, String> headerDictNull = kPrivateUserMod.getHeader(key, sign);
+            Assert.IsNull(headerDictNull);
         }
     }
 }
