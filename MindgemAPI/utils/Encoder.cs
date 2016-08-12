@@ -9,6 +9,7 @@ namespace MindgemAPI.utils
 {
     public class Encoder
     {
+        public Encoder() { }
         public String sha256_hash(String valToHash)
         {
             StringBuilder hashBuildder = new StringBuilder();

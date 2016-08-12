@@ -14,11 +14,15 @@ namespace MindgemAPI.Models.kraken
             return "";
         }
 
-        private Dictionary<String, String> getHeader(String apikey, String sign)
+        public Dictionary<String, String> getHeader(String apikey, String sign)
         {
-            Dictionary<String, String> headers = new Dictionary<String, String>();
-            headers.Add("API-Key: ", apikey);
-            headers.Add("API-Sign: ", encoder.Base64Encode(sign));
+            Dictionary<String, String> headers = null;
+            if (apikey != null && sign != null)
+            {
+                headers = new Dictionary<String, String>();
+                headers.Add("API-Key: ", apikey);
+                headers.Add("API-Sign: ", encoder.Base64Encode(sign));
+            }
             return headers;
         }
     }
