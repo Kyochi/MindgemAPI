@@ -21,8 +21,8 @@ namespace MindgemAPI.dataobjects.bittrex.publicdata
             URL_PUBLIC_TICKER_BITTREX = "https://bittrex.com/api/v1.1/public/getticker?market=";
             URL_PUBLIC_CHARTDATA_BITTREX = "";
             URL_PUBLIC_DAILYVOLUME_BITTREX = "";
-            URL_PUBLIC_CURRENCIES_BITTREX = "";
-            URL_PUBLIC_ORDERBOOK_BITTREX = "";
+            URL_PUBLIC_CURRENCIES_BITTREX = "https://bittrex.com/api/v1.1/public/getcurrencies";
+            URL_PUBLIC_ORDERBOOK_BITTREX = "https://bittrex.com/api/v1.1/public/getorderbook?market=";
             URL_PUBLIC_LOANORDERS_BITTREX = "";
             DELAY_REFRESH_TICKER = 10.0;
             DELAY_REFRESH_PAIRS = 100.0;
