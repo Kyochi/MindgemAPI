@@ -59,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Models\BittrexModelTests.cs" />
     <Compile Include="Models\KrakenModelTests.cs" />
     <Compile Include="Models\PoloniexModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -83,4 +83,3 @@ namespace MindgemAPI.Models.bittrex
         }
     }
 }
-}
