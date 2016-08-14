@@ -224,6 +224,8 @@
     <Compile Include="converter\JsonObjectsToListConverter.cs" />
     <Compile Include="dataobjects\bittrex\publicdata\BittrexPropertiesItem.cs" />
     <Compile Include="dataobjects\bittrex\publicdata\BittrexTickerItem.cs" />
+    <Compile Include="dataobjects\bittrex\publicdata\BittrexCurrencyItem.cs" />
+    <Compile Include="dataobjects\bittrex\publicdata\BittrexPairItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenPairItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenOrderBookItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenPropertiesItem.cs" />
