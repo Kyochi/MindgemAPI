@@ -33,17 +33,20 @@ namespace MindgemAPI.Models.bittrex
         {
             try
             {
-                String urlPoloniexApi = "Unknown url";
+                String urlBittrexApi = "Unknown url";
                 switch (operationType)
                 {
                     case "ticker":
                         string pair = urlBuilder.getPairCode("bittrex", currencyFrom, currencyTo);
-                        urlPoloniexApi = bpi.URL_PUBLIC_TICKER_BITTREX + pair;
+                        urlBittrexApi = bpi.URL_PUBLIC_TICKER_BITTREX + pair;
+                        break;
+                    case "currency":
+                        urlBittrexApi = bpi.URL_PUBLIC_CURRENCIES_BITTREX;
                         break;
                     default:
                         break;
                 }
-                WebResponse response = utils.HttpRequest.getRequest(urlPoloniexApi);
+                WebResponse response = utils.HttpRequest.getRequest(urlBittrexApi);
                 using (Stream responseStream = response.GetResponseStream())
                 {
                     StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
@@ -56,6 +59,8 @@ namespace MindgemAPI.Models.bittrex
                             case "ticker":
                                 selectSpecificNodeContent = JObject.Parse(json);
                                 return selectSpecificNodeContent.ToString();
+                            case "currency":
+                                // TODO : déserialiser la liste des currencies.
                             default:
                                 break;
                         }
