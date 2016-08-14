@@ -7,7 +7,7 @@ namespace MindgemAPI.utils
 {
     public class UrlBuilder
     {
-        public static List<String> serviceList = new List<string>() { "kraken" };
+        public static List<String> serviceList = new List<string>() { "kraken", "poloniex", "bittrex" };
 
         public UrlBuilder()
         {
@@ -23,14 +23,21 @@ namespace MindgemAPI.utils
             }
             else
             {
-                switch (service)
+                if (serviceList.Contains(service)) {
+                    switch (service)
+                    {
+                        case "kraken":
+                            return "X" + from + "Z" + to;
+                        case "poloniex":
+                            return from + "_" + to;
+                        case "bittrex":
+                            return from + "-" + to;
+                        default:
+                            return "API service not found";
+                    }
+                } else
                 {
-                    case "kraken":
-                        return "X" + from + "Z" + to;
-                    case "poloniex":
-                        return from + "_" + to;
-                    default:
-                        return "API service not found";
+                    return String.Empty;
                 }
             }
         }
