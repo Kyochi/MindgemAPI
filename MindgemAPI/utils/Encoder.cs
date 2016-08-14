@@ -52,5 +52,11 @@ namespace MindgemAPI.utils
             return Convert.ToString(byteDecoded);
         }
 
+        public String generateNonce()
+        {
+            Int64 unixTimestamp = (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            return Convert.ToString(unixTimestamp);
+        }
+
     }
 }

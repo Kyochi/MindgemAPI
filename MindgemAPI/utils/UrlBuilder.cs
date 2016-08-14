@@ -1,14 +1,14 @@
-﻿using System;
+﻿using MindgemAPI.dataobjects.kraken.publicdata;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Text.RegularExpressions;
 
 namespace MindgemAPI.utils
 {
     public class UrlBuilder
     {
         public static List<String> serviceList = new List<string>() { "kraken" };
-
+        public KrakenPropertiesItem kpi = new KrakenPropertiesItem();
         public UrlBuilder()
         {
 
@@ -33,6 +33,22 @@ namespace MindgemAPI.utils
                         return "API service not found";
                 }
             }
+        }
+
+        public String privateKrakenURLBuilder(String operation)
+        {
+            String urltotest = kpi.URL_PRIVATE_KRAKEN + operation;
+            if (checkPrivateURL(urltotest))
+            {
+                return urltotest;
+            }
+            else return null;
+        }
+
+        private Boolean checkPrivateURL(String url)
+        {
+            Regex expressionToEvaluate = new Regex(@"^https:\/\/api\.kraken\.com\/[\d]\/private\/[a-zA-Z]*[^\/]$");
+            return expressionToEvaluate.IsMatch(url);
         }
     }
 }
