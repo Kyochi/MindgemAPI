@@ -222,6 +222,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MindgemController.cs" />
     <Compile Include="converter\JsonObjectsToListConverter.cs" />
+    <Compile Include="converter\JsonObjectsToListPoloniexPairsConverter.cs" />
     <Compile Include="dataobjects\bittrex\publicdata\BittrexPropertiesItem.cs" />
     <Compile Include="dataobjects\bittrex\publicdata\BittrexTickerItem.cs" />
     <Compile Include="dataobjects\bittrex\publicdata\BittrexCurrencyItem.cs" />

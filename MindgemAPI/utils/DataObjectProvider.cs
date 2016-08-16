@@ -7,9 +7,17 @@ namespace MindgemAPI.utils
     public class DataObjectProvider
     {
 
-        public T deserializeJsonToObject<T>(String json)
+        public T deserializeJsonToObject<T>(String json, JsonConverter converter = null)
         {
-            T dataObject = JsonConvert.DeserializeObject<T>(json);
+            T dataObject = default(T);
+            if (converter != null)
+            {
+                dataObject = JsonConvert.DeserializeObject<T>(json, converter);
+            }
+            else
+            {
+                dataObject = JsonConvert.DeserializeObject<T>(json);
+            }
 
             try
             {

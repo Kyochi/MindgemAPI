@@ -1,7 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MindgemAPI.converter;
+using MindgemAPI.dataobjects.poloniex.publicdata;
 using MindgemAPI.Models.poloniex;
 using MindgemAPI.utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,6 +93,40 @@ namespace MindgemAPITests.Models
             Assert.AreEqual(pTest.getCurrentTickerInfos("lowestask", bitcoin, ethereum), double.NaN);
             Assert.AreEqual(pTest.getCurrentTickerInfos("LOWESTASK", bitcoin, ethereum), double.NaN);
             Assert.AreEqual(pTest.getCurrentTickerInfos("lowest Ask", bitcoin, ethereum), double.NaN);
+        }
+
+        [TestMethod]
+        public void getCurrenciesPairsTest()
+        {
+            string json = @"{
+
+                    ""1CR"": {
+                                ""id"": 1,
+		                ""name"": ""1CRedit"",
+		                ""txFee"": ""0.01000000"",
+		                ""minConf"": 3,
+		                ""depositAddress"": null,
+		                ""disabled"": 0,
+		                ""delisted"": 0,
+		                ""frozen"": 0
+
+                    },
+	                ""ABY"": {
+                                ""id"": 2,
+		                ""name"": ""ArtByte"",
+		                ""txFee"": ""0.01000000"",
+		                ""minConf"": 8,
+		                ""depositAddress"": null,
+		                ""disabled"": 0,
+		                ""delisted"": 0,
+		                ""frozen"": 0
+
+                    }
+                }";
+            DataObjectProvider dataObjectProvider = new DataObjectProvider();
+            PoloniexPairItem curIt = dataObjectProvider.deserializeJsonToObject<PoloniexPairItem>(json, new JsonObjectsToListPoloniexPairsConverter());
+            Assert.AreEqual("ABY", curIt.listPairs[1]);
+            Assert.AreEqual(2, curIt.listPairs.Count);
         }
 
         [TestMethod]

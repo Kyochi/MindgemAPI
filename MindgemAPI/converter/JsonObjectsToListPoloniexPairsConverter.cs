@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MindgemAPI.dataobjects.poloniex.publicdata;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -7,30 +8,22 @@ using System.Web;
 
 namespace MindgemAPI.converter
 {
-    public class JsonObjectsToListConverter : JsonConverter
+    public class JsonObjectsToListPoloniexPairsConverter : JsonConverter
     {
-
-        public JsonObjectsToListConverter()
-        {
-
-        }
-
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(HashSet<String>));
+            return (objectType == typeof(PoloniexPairItem));
         }
-
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            PoloniexPairItem value = new PoloniexPairItem();
             JToken jtoken = JToken.Load(reader);
             JObject jObjectCast = jtoken.Value<JObject>();
 
-            List<String> listPairs = (from prop in jObjectCast.Properties()
-                                      where !prop.Name.Contains(".d")
-                                      select prop.Name).ToList();
-            return listPairs;
+            List<String> listitem = (from prop in jObjectCast.Properties()
+                                     select prop.Name).ToList();
+            return new PoloniexPairItem { listPairs = listitem };
         }
-
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotImplementedException();
