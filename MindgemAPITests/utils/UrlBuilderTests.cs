@@ -20,7 +20,7 @@ namespace MindgemAPI.utils.Tests
             Assert.AreEqual("XETHZBTC", testUrlBuilder.getPairCode("kraken", "ETH", "BTC"));
             Assert.AreEqual("XNAWZAK", testUrlBuilder.getPairCode("kraken", "NAW", "AK"));
             Assert.AreNotEqual("XETHZEUR", testUrlBuilder.getPairCode("AnyService", "ETH", "EUR"));
-            Assert.AreEqual("API service not found", testUrlBuilder.getPairCode("AnyService", "ETH", "EUR"));
+            Assert.AreEqual(String.Empty, testUrlBuilder.getPairCode("AnyService", "ETH", "EUR"));
         }
 
         [TestMethod]

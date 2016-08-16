@@ -222,6 +222,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MindgemController.cs" />
     <Compile Include="converter\JsonObjectsToListConverter.cs" />
+    <Compile Include="converter\JsonObjectsToListPoloniexPairsConverter.cs" />
+    <Compile Include="dataobjects\bittrex\publicdata\BittrexPropertiesItem.cs" />
+    <Compile Include="dataobjects\bittrex\publicdata\BittrexTickerItem.cs" />
+    <Compile Include="dataobjects\bittrex\publicdata\BittrexCurrencyItem.cs" />
+    <Compile Include="dataobjects\bittrex\publicdata\BittrexPairItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenPairItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenOrderBookItem.cs" />
     <Compile Include="dataobjects\kraken\publicdata\KrakenPropertiesItem.cs" />
@@ -233,6 +238,7 @@
     <Compile Include="dataobjects\poloniex\publicdata\PoloniexTickerItem.cs" />
     <Compile Include="dataobjects\WalletItem.cs" />
     <Compile Include="exception\UrlBuilderException.cs" />
+    <Compile Include="Models\bittrex\BittrexPublicMarketModel.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\kraken\KrakenPrivateTradingModel.cs" />
     <Compile Include="Models\kraken\KrakenPrivateUserModel.cs" />
@@ -265,6 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="dataobjects\bittrex\privatedata\" />
     <Folder Include="dataobjects\kraken\privatedata\" />
     <Folder Include="dataobjects\poloniex\privatedata\" />
   </ItemGroup>

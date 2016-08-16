@@ -1,5 +1,6 @@
 ﻿using MindgemAPI.converter;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,7 @@ namespace MindgemAPI.dataobjects.poloniex.publicdata
 {
     public class PoloniexPairItem
     {
-        [JsonConverter(typeof(JsonObjectsToListConverter))]
-        public List<String> poloniexCurrencies { get; set; }
-        public List<String> poloniexPairs { get; set; }
+        public List<String> listPairs { get; set; }
+
     }
 }
