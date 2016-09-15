@@ -8,7 +8,7 @@ namespace MindgemAPI.utils
     public class UrlBuilder
     {
         public static List<String> serviceList = new List<string>() { "kraken", "poloniex", "bittrex" };
-
+        public KrakenPropertiesItem kpi = new KrakenPropertiesItem();
         public UrlBuilder()
         {
 

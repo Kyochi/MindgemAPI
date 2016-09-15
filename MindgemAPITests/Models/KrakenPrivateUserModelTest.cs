@@ -15,15 +15,26 @@ namespace MindgemAPITests.Models
         public KrakenPrivateUserModel kPrivateUserMod = new KrakenPrivateUserModel();
 
         [TestMethod]
+        public void getPrivateDataTest()
+        {
+            String key = "***REMOVED***";
+            String skey = "***REMOVED***";
+
+            String balanceJson = kPrivateUserMod.getPrivateData("Balance", key, skey);
+            Console.WriteLine(balanceJson);
+            Assert.Fail();
+        }
+
+        [TestMethod]
         public void getHeaderTest()
         {
             MindgemAPI.utils.Encoder encoder = new MindgemAPI.utils.Encoder();
             String key = "5GFD+SGSf1dsf25sdgGDFG52-FD5122dfg21";
-            String sign = "25ca8755fc3abd6756915e3969e4595864dc1beac5ae3c3116093979a6574c135088fd686b7b5d2c341f25a1040e0b982f8f53ceeda5978e2907c6cbd63d132c";
+            Byte[] sign = new byte[] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
 
             Dictionary<String, String> headerDictExpected = new Dictionary<string, string>();
             headerDictExpected.Add("API-Key: ", key);
-            headerDictExpected.Add("API-Sign: ", encoder.Base64Encode(sign));
+            headerDictExpected.Add("API-Sign: ", Convert.ToBase64String(sign));
 
             Dictionary<String, String> headerDict = kPrivateUserMod.getHeader(key, sign);
             Boolean isOk = true;

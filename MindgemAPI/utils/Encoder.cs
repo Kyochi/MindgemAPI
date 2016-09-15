@@ -28,14 +28,14 @@ namespace MindgemAPI.utils
             return hashBuildder.ToString();
         }
 
-        public String hashMac_sha512(String messageToHash, String hashKey)
+        public Byte[] hashMac_sha512(String messageToHash, String hashKey)
         {
             Encoding formatEncoding = Encoding.UTF8;
             var keyByte = formatEncoding.GetBytes(hashKey);
             using (var hmacsha256 = new HMACSHA256(keyByte))
             {
                 hmacsha256.ComputeHash(formatEncoding.GetBytes(messageToHash));
-                return Convert.ToString(hmacsha256.Hash);
+                return hmacsha256.Hash;
             }
 
         }

@@ -29,7 +29,7 @@ namespace MindgemAPI.utils
 
             foreach (var elementToAdd in headers)
             {
-                request.Headers.Add(elementToAdd.Key, elementToAdd.Value);
+                request.Headers.Add(elementToAdd.Key + elementToAdd.Value);
             }
 
             Stream dataStream = request.GetRequestStream();
