@@ -50,7 +50,7 @@ namespace MindgemAPI.Models.kraken
             }
             return headers;
         }
-        public Byte[] getSignature(String url, String privatekey, String otpPwd, String nonce,  Dictionary<String, String> additionalPostData)
+        public Byte[] getSignature(String url, String privatekey, String nonce, String otpPwd,  Dictionary<String, String> additionalPostData)
         {
             var uri = new Uri(url);
             String path = uri.PathAndQuery;
@@ -63,8 +63,9 @@ namespace MindgemAPI.Models.kraken
                 postDataDict.Add("otp", otpPwd);
             }
             String postDataString = utils.HttpRequest.buildHttpQuery(postDataDict);
-            String hashSha256 = encoder.sha256_hash(postDataDict["nonce"] + postDataString);
-
+            String noncePostData = postDataDict["nonce"] + postDataString;
+            String hashSha256 = encoder.sha256_hash(noncePostData);
+            
             signature = encoder.hashMac_sha512(path + hashSha256, encoder.Base64Decode(privatekey));
             return signature;
         }
