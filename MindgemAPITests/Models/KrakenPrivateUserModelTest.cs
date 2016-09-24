@@ -21,8 +21,7 @@ namespace MindgemAPITests.Models
             String skey = "***REMOVED***";
 
             String balanceJson = kPrivateUserMod.getPrivateData("Balance", key, skey);
-            Console.WriteLine(balanceJson);
-            Assert.Fail();
+            Assert.IsTrue(balanceJson.Contains("result"));
         }
 
         [TestMethod]

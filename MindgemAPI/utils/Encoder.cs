@@ -12,7 +12,6 @@ namespace MindgemAPI.utils
         public Encoder() { }
         public Byte[] sha256_hash(String valToHash)
         {
-            StringBuilder hashBuildder = new StringBuilder();
             Byte[] result = null;
             using (SHA256 hash = SHA256Managed.Create())
             {
@@ -26,9 +25,9 @@ namespace MindgemAPI.utils
         public Byte[] hashMac_sha512(Byte[] messageToHash, String hashKey)
         {
             Byte[] keyByte = Convert.FromBase64String(hashKey);
-            using (var hmacsha256 = new HMACSHA256(keyByte))
+            using (var hmacsha512 = new HMACSHA512(keyByte))
             {
-                return hmacsha256.ComputeHash(messageToHash);
+                return hmacsha512.ComputeHash(messageToHash);
             }
 
         }

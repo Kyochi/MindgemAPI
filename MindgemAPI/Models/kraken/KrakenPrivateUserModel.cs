@@ -56,21 +56,22 @@ namespace MindgemAPI.Models.kraken
             var uri = new Uri(url);
             String path = uri.PathAndQuery;
             Byte[] signature = null;
-            
+
             Dictionary<String, String> postDataDict = new Dictionary<string, string>();
             postDataDict.Add("nonce", nonce);
             if (otpPwd != null)
             {
                 postDataDict.Add("otp", otpPwd);
             }
+
             String postDataString = utils.HttpRequest.buildHttpQuery(postDataDict);
             String noncePostData = postDataDict["nonce"] + postDataString;
             Byte[] hashSha256 = encoder.sha256_hash(noncePostData);
             Byte[] bytePath = Encoding.UTF8.GetBytes(path);
 
-            Byte[] fusionByteArray = new byte[bytePath.Count() + hashSha256.Count()];
+            Byte[] fusionByteArray = new byte[bytePath.Length + hashSha256.Length];
             bytePath.CopyTo(fusionByteArray, 0);
-            hashSha256.CopyTo(fusionByteArray, bytePath.Count());
+            hashSha256.CopyTo(fusionByteArray, bytePath.Length);
 
             signature = encoder.hashMac_sha512(fusionByteArray, privatekey);
             return signature;
