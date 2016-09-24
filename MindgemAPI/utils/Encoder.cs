@@ -10,32 +10,25 @@ namespace MindgemAPI.utils
     public class Encoder
     {
         public Encoder() { }
-        public String sha256_hash(String valToHash)
+        public Byte[] sha256_hash(String valToHash)
         {
             StringBuilder hashBuildder = new StringBuilder();
-
+            Byte[] result = null;
             using (SHA256 hash = SHA256Managed.Create())
             {
                 Encoding enc = Encoding.UTF8;
-                Byte[] result = hash.ComputeHash(enc.GetBytes(valToHash));
+                 result = hash.ComputeHash(enc.GetBytes(valToHash));
 
-                foreach (Byte b in result)
-                {
-                    hashBuildder.Append(b.ToString("x2"));
-                }
             }
-            
-            return hashBuildder.ToString();
+            return result;
         }
 
-        public Byte[] hashMac_sha512(String messageToHash, String hashKey)
+        public Byte[] hashMac_sha512(Byte[] messageToHash, String hashKey)
         {
-            Encoding formatEncoding = Encoding.UTF8;
-            var keyByte = formatEncoding.GetBytes(hashKey);
+            Byte[] keyByte = Convert.FromBase64String(hashKey);
             using (var hmacsha256 = new HMACSHA256(keyByte))
             {
-                hmacsha256.ComputeHash(formatEncoding.GetBytes(messageToHash));
-                return hmacsha256.Hash;
+                return hmacsha256.ComputeHash(messageToHash);
             }
 
         }
@@ -54,7 +47,7 @@ namespace MindgemAPI.utils
 
         public String generateNonce()
         {
-            Int64 unixTimestamp = (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            Int64 unixTimestamp = DateTime.Now.Ticks;
             return Convert.ToString(unixTimestamp);
         }
 

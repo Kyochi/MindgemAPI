@@ -17,8 +17,8 @@ namespace MindgemAPITests.Models
         [TestMethod]
         public void getPrivateDataTest()
         {
-            String key = "key";
-            String skey = "skey";
+            String key = "***REMOVED***";
+            String skey = "***REMOVED***";
 
             String balanceJson = kPrivateUserMod.getPrivateData("Balance", key, skey);
             Console.WriteLine(balanceJson);

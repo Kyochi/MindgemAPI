@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -64,9 +65,14 @@ namespace MindgemAPI.Models.kraken
             }
             String postDataString = utils.HttpRequest.buildHttpQuery(postDataDict);
             String noncePostData = postDataDict["nonce"] + postDataString;
-            String hashSha256 = encoder.sha256_hash(noncePostData);
-            
-            signature = encoder.hashMac_sha512(path + hashSha256, encoder.Base64Decode(privatekey));
+            Byte[] hashSha256 = encoder.sha256_hash(noncePostData);
+            Byte[] bytePath = Encoding.UTF8.GetBytes(path);
+
+            Byte[] fusionByteArray = new byte[bytePath.Count() + hashSha256.Count()];
+            bytePath.CopyTo(fusionByteArray, 0);
+            hashSha256.CopyTo(fusionByteArray, bytePath.Count());
+
+            signature = encoder.hashMac_sha512(fusionByteArray, privatekey);
             return signature;
         }
     }
