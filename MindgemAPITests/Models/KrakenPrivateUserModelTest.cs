@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MindgemAPI.Models.kraken;
 using MindgemAPI.utils;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,12 @@ namespace MindgemAPITests.Models
             String skey = "***REMOVED***";
 
             String balanceJson = kPrivateUserMod.getPrivateData("Balance", key, skey);
-            Assert.IsTrue(balanceJson.Contains("result"));
+            Assert.IsTrue(JObject.Parse(balanceJson)["result"] != null);
+
+            String wrongKey = "S757sX1fnqORRc9ilPF7/U+SQETDQlYYgHzPUKZ/x09RhLFJJHAaJ0Wi";
+            String wrongSKey = "KjH5Opozi0FQeaD63ISFIYC7rIcPSyLVbZTQ5ViC3JeziDZ4ZHtFLVXaK8yu5pUhRdpWIPbqvd2E0pAZTdMvGA==";
+            String balanceJsonFail = kPrivateUserMod.getPrivateData("Balance", wrongKey, wrongSKey);
+            Assert.AreEqual(JObject.Parse(balanceJsonFail)["error"][0], "EAPI:Invalid key");
         }
 
         [TestMethod]
