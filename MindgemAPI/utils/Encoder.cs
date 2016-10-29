@@ -29,7 +29,6 @@ namespace MindgemAPI.utils
             {
                 return hmacsha512.ComputeHash(messageToHash);
             }
-
         }
 
         public String Base64Encode(string textToEncode)
