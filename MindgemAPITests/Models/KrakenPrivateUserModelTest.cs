@@ -41,6 +41,7 @@ namespace MindgemAPITests.Models
             headerDictExpected.Add("API-Sign: ", Convert.ToBase64String(sign));
 
             Dictionary<String, String> headerDict = kPrivateUserMod.getHeader(key, sign);
+
             Boolean isOk = true;
             foreach (var elExpected in headerDictExpected)
             {
