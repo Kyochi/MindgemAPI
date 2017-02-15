@@ -1,3 +1,3 @@
 # MindgemAPI
 
-API
+Mindgem is a multi-platform cryptocurrency exchange API.
