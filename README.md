@@ -1,3 +1,3 @@
-# MindgemAPI
+![alt tag](https://kazuia.github.io/MindgemShowcase/assets/img/logo-mindgem.png)
 
-Mindgem is a multi-platform cryptocurrency exchange API.
+MindgemAPI is a multi-platform cryptocurrency exchange API.
